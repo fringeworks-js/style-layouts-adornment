@@ -1,0 +1,105 @@
+@use '../inside';
+
+.frg-layout-affix {
+  // 変数
+  --frg-layout-affix-gapX: 0px;
+  --frg-layout-affix-gapY: 0px;
+  --frg-layout-affix-insetX: 0px;
+  --frg-layout-affix-insetY: 0px;
+
+  // affix用のスタイル
+  // 内側の装飾の基準にするためposition: relative
+  display: grid;
+  position: relative;
+  grid-template:
+    '.    top    .    ' auto
+    'left main   right' 1fr
+    '.    bottom .    ' auto
+    / auto 1fr auto;
+
+  &.frg-layout-affix-hug {
+    // 幅を本体と装飾に合わせる
+    width: fit-content;
+  }
+}
+
+// 本体
+// 利用者のスタイルを優先するため詳細度を0にする
+:where(.frg-layout-affix) > :where(:not(.frg-layout-affix-item)) {
+  grid-area: main;
+  // 左右の装飾の方が高い場合でも、行の中央に本体を配置する
+  align-self: center;
+}
+
+.frg-layout-affix-item {
+  // 外側の装飾
+  // 本体側に寄せ、本体に面した側に間隔を設ける
+  &.frg-layout-affix-side-top {
+    // 配置: 上
+    grid-area: top;
+    align-self: end;
+    margin-bottom: var(--frg-layout-affix-gapY);
+  }
+  &.frg-layout-affix-side-bottom {
+    // 配置: 下
+    grid-area: bottom;
+    align-self: start;
+    margin-top: var(--frg-layout-affix-gapY);
+  }
+  &.frg-layout-affix-side-left {
+    // 配置: 左
+    grid-area: left;
+    justify-self: end;
+    margin-right: var(--frg-layout-affix-gapX);
+  }
+  &.frg-layout-affix-side-right {
+    // 配置: 右
+    grid-area: right;
+    justify-self: start;
+    margin-left: var(--frg-layout-affix-gapX);
+  }
+
+  &.frg-layout-affix-side-top,
+  &.frg-layout-affix-side-bottom {
+    &.frg-layout-affix-alignX-left {
+      // 横位置: 左
+      justify-self: start;
+    }
+    &.frg-layout-affix-alignX-center {
+      // 横位置: 中央
+      justify-self: center;
+    }
+    &.frg-layout-affix-alignX-right {
+      // 横位置: 右
+      justify-self: end;
+    }
+  }
+
+  &.frg-layout-affix-side-left,
+  &.frg-layout-affix-side-right {
+    &.frg-layout-affix-alignY-top {
+      // 縦位置: 上
+      align-self: start;
+    }
+    &.frg-layout-affix-alignY-middle {
+      // 縦位置: 中央
+      align-self: center;
+    }
+    &.frg-layout-affix-alignY-bottom {
+      // 縦位置: 下
+      align-self: end;
+    }
+  }
+
+  // 内側の装飾
+  // 本体のサイズに影響しないよう、本体の領域を基準に絶対配置する
+  &.frg-layout-affix-side-inside {
+    grid-area: main;
+    position: absolute;
+    z-index: 1;
+
+    @include inside.align('frg-layout-affix');
+  }
+}
+
+@include inside.fit('frg-layout-affix');

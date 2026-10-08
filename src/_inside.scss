@@ -1,0 +1,46 @@
+// 内側の装飾の位置
+// 絶対配置した装飾を、本体の端から inset の距離に揃える
+// @param $prefix レイアウトのクラスの接頭辞 (例: frg-layout-affix)
+@mixin align($prefix) {
+  &.#{$prefix}-alignX-left {
+    // 横位置: 左
+    left: var(--#{$prefix}-insetX);
+  }
+  &.#{$prefix}-alignX-center {
+    // 横位置: 中央
+    left: var(--#{$prefix}-insetX);
+    right: var(--#{$prefix}-insetX);
+    margin-inline: auto;
+  }
+  &.#{$prefix}-alignX-right {
+    // 横位置: 右
+    right: var(--#{$prefix}-insetX);
+  }
+
+  &.#{$prefix}-alignY-top {
+    // 縦位置: 上
+    top: var(--#{$prefix}-insetY);
+  }
+  &.#{$prefix}-alignY-middle {
+    // 縦位置: 中央
+    top: var(--#{$prefix}-insetY);
+    bottom: var(--#{$prefix}-insetY);
+    margin-block: auto;
+  }
+  &.#{$prefix}-alignY-bottom {
+    // 縦位置: 下
+    bottom: var(--#{$prefix}-insetY);
+  }
+}
+
+// 中央寄せの内側の装飾は内容に合わせたサイズにする
+// 利用者のサイズ指定を優先するため詳細度を0にする
+// @param $prefix レイアウトのクラスの接頭辞 (例: frg-layout-affix)
+@mixin fit($prefix) {
+  :where(.#{$prefix}-item.#{$prefix}-side-inside.#{$prefix}-alignX-center) {
+    width: fit-content;
+  }
+  :where(.#{$prefix}-item.#{$prefix}-side-inside.#{$prefix}-alignY-middle) {
+    height: fit-content;
+  }
+}

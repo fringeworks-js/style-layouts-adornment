@@ -1,0 +1,124 @@
+@use '../inside';
+
+.frg-layout-sticker {
+  // 変数
+  --frg-layout-sticker-gapX: 0px;
+  --frg-layout-sticker-gapY: 0px;
+  --frg-layout-sticker-insetX: 0px;
+  --frg-layout-sticker-insetY: 0px;
+
+  // sticker用のスタイル
+  // 装飾の基準にするためposition: relative
+  position: relative;
+
+  &.frg-layout-sticker-hug {
+    // 幅を本体に合わせる
+    width: fit-content;
+  }
+}
+
+.frg-layout-sticker-item {
+  // レイアウト上の場所を確保しないよう、コンテナを基準に絶対配置する
+  position: absolute;
+  z-index: 1;
+
+  // 外側の装飾
+  // コンテナの外に配置し、コンテナに面した側に間隔を設ける
+  &.frg-layout-sticker-side-top {
+    // 配置: 上
+    bottom: calc(100% + var(--frg-layout-sticker-gapY));
+  }
+  &.frg-layout-sticker-side-bottom {
+    // 配置: 下
+    top: calc(100% + var(--frg-layout-sticker-gapY));
+  }
+  &.frg-layout-sticker-side-left {
+    // 配置: 左
+    right: calc(100% + var(--frg-layout-sticker-gapX));
+  }
+  &.frg-layout-sticker-side-right {
+    // 配置: 右
+    left: calc(100% + var(--frg-layout-sticker-gapX));
+  }
+
+  &.frg-layout-sticker-side-top,
+  &.frg-layout-sticker-side-bottom {
+    &.frg-layout-sticker-alignX-left {
+      // 横位置: 左
+      left: 0;
+    }
+    &.frg-layout-sticker-alignX-center {
+      // 横位置: 中央
+      // 本体より幅が広い場合も中央に揃えるためtranslateを使う
+      // (transformは利用者のtransformと打ち消し合うため使わない)
+      left: 50%;
+      translate: -50% 0;
+
+      // translateに未対応のブラウザー(Chrome / Edge 103以前)の代替
+      // 左右の位置を外側に大きく広げ、autoのmarginで中央に寄せる
+      // TODO: Chrome / Edge 103以前が対応範囲外になったら削除する
+      @supports not (translate: 0) {
+        left: -100vw;
+        right: -100vw;
+        margin-inline: auto;
+      }
+    }
+    &.frg-layout-sticker-alignX-right {
+      // 横位置: 右
+      right: 0;
+    }
+  }
+
+  &.frg-layout-sticker-side-left,
+  &.frg-layout-sticker-side-right {
+    &.frg-layout-sticker-alignY-top {
+      // 縦位置: 上
+      top: 0;
+    }
+    &.frg-layout-sticker-alignY-middle {
+      // 縦位置: 中央
+      // 本体より高さが高い場合も中央に揃えるためtranslateを使う
+      // (transformは利用者のtransformと打ち消し合うため使わない)
+      top: 50%;
+      translate: 0 -50%;
+
+      // translateに未対応のブラウザー(Chrome / Edge 103以前)の代替
+      // 上下の位置を外側に大きく広げ、autoのmarginで中央に寄せる
+      // TODO: Chrome / Edge 103以前が対応範囲外になったら削除する
+      @supports not (translate: 0) {
+        top: -100vh;
+        bottom: -100vh;
+        margin-block: auto;
+      }
+    }
+    &.frg-layout-sticker-alignY-bottom {
+      // 縦位置: 下
+      bottom: 0;
+    }
+  }
+
+  // 内側の装飾
+  &.frg-layout-sticker-side-inside {
+    @include inside.align('frg-layout-sticker');
+  }
+}
+
+// 外側の装飾はコンテナの幅で折り返さないようにする
+// 利用者のサイズ指定を優先するため詳細度を0にする
+:where(.frg-layout-sticker-item:not(.frg-layout-sticker-side-inside)) {
+  width: max-content;
+}
+
+// translateに未対応のブラウザーの代替では、左右の装飾の高さを内容に合わせる
+// 利用者のサイズ指定を優先するため詳細度を0にする
+// TODO: Chrome / Edge 103以前が対応範囲外になったら削除する
+@supports not (translate: 0) {
+  :where(
+    .frg-layout-sticker-item.frg-layout-sticker-side-left.frg-layout-sticker-alignY-middle,
+    .frg-layout-sticker-item.frg-layout-sticker-side-right.frg-layout-sticker-alignY-middle
+  ) {
+    height: max-content;
+  }
+}
+
+@include inside.fit('frg-layout-sticker');
