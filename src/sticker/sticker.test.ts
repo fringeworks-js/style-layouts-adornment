@@ -8,11 +8,10 @@ describe('sticker', () => {
     expect(sticker()).toEqual({ className: 'frg-layout-sticker', style: {} });
   });
 
-  test('hug', () => {
-    expect(sticker({ hug: true }).className).toBe(
-      'frg-layout-sticker frg-layout-sticker-hug',
+  test('sizingX / sizingY', () => {
+    expect(sticker({ sizingX: 'keep', sizingY: 'fill' }).className).toBe(
+      'frg-layout-sticker frg-layout-sticker-sizingX-keep frg-layout-sticker-sizingY-fill',
     );
-    expect(sticker({ hug: false }).className).toBe('frg-layout-sticker');
   });
 
   test('gap / inset は共通値を軸毎の値で上書きする', () => {
@@ -63,8 +62,8 @@ describe('stickerItem', () => {
 
 describe('helpers', () => {
   test('extractStickerOptions', () => {
-    expect(extractStickerOptions({ gap: 4, hug: true, id: 'a' })).toEqual([
-      { gap: 4, hug: true },
+    expect(extractStickerOptions({ gap: 4, sizingY: 'hug', id: 'a' })).toEqual([
+      { gap: 4, sizingY: 'hug' },
       { id: 'a' },
     ]);
   });

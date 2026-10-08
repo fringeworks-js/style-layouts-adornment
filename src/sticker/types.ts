@@ -1,16 +1,16 @@
 import type {
   GapOptions,
-  HugOptions,
   InsetOptions,
   ItemInsideOptions,
   ItemLeftRightOptions,
   ItemTopBottomOptions,
+  SizingOptions,
 } from '../_types';
 
 /**
  * stickerのオプション
  */
-export type StickerOptions = HugOptions & GapOptions & InsetOptions;
+export type StickerOptions = SizingOptions & GapOptions & InsetOptions;
 
 /**
  * stickerで本体の上下に配置する装飾のオプション

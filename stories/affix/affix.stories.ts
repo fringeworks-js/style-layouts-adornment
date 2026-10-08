@@ -33,7 +33,7 @@ export const Default: Story = {
 export const AllSides: Story = {
   args: {
     main: 'box',
-    hug: true,
+    sizingX: 'hug',
     top: 'center',
     bottom: 'center',
     left: 'middle',
@@ -50,7 +50,7 @@ export const AllSides: Story = {
 export const Badge: Story = {
   args: {
     main: 'box',
-    hug: true,
+    sizingX: 'hug',
     insideX: 'right',
     insideY: 'top',
     inset: '-8',
@@ -65,7 +65,7 @@ export const Badge: Story = {
 export const GapOnlyWithItem: Story = {
   args: {
     main: 'box',
-    hug: true,
+    sizingX: 'hug',
     right: 'middle',
     gap: '24',
   },
@@ -77,7 +77,7 @@ export const GapOnlyWithItem: Story = {
 export const ItemOverride: Story = {
   args: {
     main: 'box',
-    hug: true,
+    sizingX: 'hug',
     top: 'left',
     bottom: 'left',
     insideX: 'right',
@@ -125,14 +125,13 @@ export const LargeItemAutoMain: Story = {
 };
 
 /**
- * 幅を固定した本体でhugを指定しない場合、本体は列の左端に置かれ、揃えの基準は列になる
+ * 幅を固定した本体でsizingXを指定しない場合、本体は列の左端に置かれ、揃えの基準は列になる
  *
- * hugを指定すると列の幅が本体に合い、付属物が本体に揃う
+ * sizingXに`hug`を指定すると列の幅が本体に合い、付属物が本体に揃う
  */
 export const FixedSizeMain: Story = {
   args: {
     main: 'box',
-    hug: false,
     top: 'center',
     insideX: 'right',
     insideY: 'top',
@@ -141,14 +140,14 @@ export const FixedSizeMain: Story = {
 };
 
 /**
- * 幅を指定しない本体(プログレスバーなど)でhugを指定すると、本体の幅は上下の付属物の幅になる
+ * 幅を指定しない本体(プログレスバーなど)でsizingXに`hug`を指定すると、本体の幅は上下の付属物の幅になる
  *
  * 上下に付属物がない場合は0になる
  */
 export const HugWithoutMainWidth: Story = {
   args: {
     main: 'bar',
-    hug: true,
+    sizingX: 'hug',
     top: 'left',
     right: 'middle',
     gap: '4',
@@ -165,6 +164,91 @@ export const FillContainer: Story = {
     top: 'left',
     bottom: 'right',
     left: 'top',
+    insideX: 'center',
+    gap: '4',
+  },
+};
+
+// ===== 大きさの決め方 =====
+
+/**
+ * sizingX / sizingYを試す
+ *
+ * - sizing: fillでコンテナをリサイズ可能な領域いっぱいに広げると、fillの効果が確認しやすい
+ * - main: 本体の種類を切り替えて確認する
+ */
+export const Sizing: Story = {
+  args: {
+    main: 'box',
+    sizing: 'fill',
+    sizingX: 'fill',
+    sizingY: 'fill',
+    top: 'left',
+    right: 'middle',
+    insideX: 'right',
+    insideY: 'top',
+    gap: '4',
+  },
+};
+
+/**
+ * fill: 本体をコンテナに合わせる
+ */
+export const SizingFill: Story = {
+  args: {
+    main: 'box',
+    sizing: 'fill',
+    sizingX: 'fill',
+    sizingY: 'fill',
+    top: 'left',
+    insideX: 'center',
+    gap: '4',
+  },
+};
+
+/**
+ * keep: 本体の大きさを保ち、中央に置く
+ */
+export const SizingKeep: Story = {
+  args: {
+    main: 'box',
+    sizing: 'fill',
+    sizingX: 'keep',
+    sizingY: 'keep',
+    top: 'center',
+    insideX: 'right',
+    insideY: 'top',
+    gap: '4',
+  },
+};
+
+/**
+ * hug: コンテナを本体に合わせる
+ */
+export const SizingHug: Story = {
+  args: {
+    main: 'box',
+    sizing: 'auto',
+    sizingX: 'hug',
+    sizingY: 'hug',
+    top: 'center',
+    insideX: 'right',
+    insideY: 'top',
+    gap: '4',
+  },
+};
+
+/**
+ * プログレスバー: 横はfill、縦はkeep
+ */
+export const SizingProgressBar: Story = {
+  args: {
+    main: 'bar',
+    sizing: 'fill',
+    sizingX: 'fill',
+    sizingY: 'keep',
+    top: 'left',
+    right: 'middle',
     insideX: 'center',
     gap: '4',
   },

@@ -1,6 +1,6 @@
 {
   "name": "@fringeworks/style-layouts-adornment",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "CSS layouts for placing labels, badges, and other adornments around or over a main element",
   "keywords": [

@@ -5,4 +5,4 @@
  * パッケージによって参照先が異なるものはこのファイルに集約する。
  */
 export type { ArgTypes, Meta, StoryObj } from '@storybook/web-components-vite';
-export { AlignX, AlignY } from '../../src/constants';
+export { AlignX, AlignY, Sizing } from '../../src/constants';

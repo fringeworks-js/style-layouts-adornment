@@ -21,7 +21,7 @@ const preview: Preview = {
       // body と #storybook-root に高さを設定
       document.body.style.height = '100vh';
       document.body.style.margin = '0';
-      document.body.style.padding = '0';
+      document.body.style.padding = '32px';
       const root = document.getElementById('storybook-root');
       if (root) {
         root.style.height = '100%';

@@ -24,7 +24,7 @@ export const MainOnly: Story = {
 
 export const Hug: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     main: FIXED_MAIN,
   },
 };
@@ -33,7 +33,7 @@ export const Hug: Story = {
 
 export const TopLeft: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     gap: GAP,
     main: FIXED_MAIN,
     items: [{ id: 'item', options: { side: 'top', alignX: 'left' } }],
@@ -41,7 +41,7 @@ export const TopLeft: Story = {
 };
 export const TopCenter: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     gap: GAP,
     main: FIXED_MAIN,
     items: [{ id: 'item', options: { side: 'top' } }],
@@ -49,7 +49,7 @@ export const TopCenter: Story = {
 };
 export const TopRight: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     gap: GAP,
     main: FIXED_MAIN,
     items: [{ id: 'item', options: { side: 'top', alignX: 'right' } }],
@@ -57,7 +57,7 @@ export const TopRight: Story = {
 };
 export const BottomLeft: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     gap: GAP,
     main: FIXED_MAIN,
     items: [{ id: 'item', options: { side: 'bottom', alignX: 'left' } }],
@@ -65,7 +65,7 @@ export const BottomLeft: Story = {
 };
 export const BottomCenter: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     gap: GAP,
     main: FIXED_MAIN,
     items: [{ id: 'item', options: { side: 'bottom' } }],
@@ -73,7 +73,7 @@ export const BottomCenter: Story = {
 };
 export const BottomRight: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     gap: GAP,
     main: FIXED_MAIN,
     items: [{ id: 'item', options: { side: 'bottom', alignX: 'right' } }],
@@ -84,7 +84,7 @@ export const BottomRight: Story = {
 
 export const LeftTop: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     gap: GAP,
     main: FIXED_MAIN,
     items: [{ id: 'item', options: { side: 'left', alignY: 'top' } }],
@@ -92,7 +92,7 @@ export const LeftTop: Story = {
 };
 export const LeftMiddle: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     gap: GAP,
     main: FIXED_MAIN,
     items: [{ id: 'item', options: { side: 'left' } }],
@@ -100,7 +100,7 @@ export const LeftMiddle: Story = {
 };
 export const LeftBottom: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     gap: GAP,
     main: FIXED_MAIN,
     items: [{ id: 'item', options: { side: 'left', alignY: 'bottom' } }],
@@ -108,7 +108,7 @@ export const LeftBottom: Story = {
 };
 export const RightTop: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     gap: GAP,
     main: FIXED_MAIN,
     items: [{ id: 'item', options: { side: 'right', alignY: 'top' } }],
@@ -116,7 +116,7 @@ export const RightTop: Story = {
 };
 export const RightMiddle: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     gap: GAP,
     main: FIXED_MAIN,
     items: [{ id: 'item', options: { side: 'right' } }],
@@ -124,7 +124,7 @@ export const RightMiddle: Story = {
 };
 export const RightBottom: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     gap: GAP,
     main: FIXED_MAIN,
     items: [{ id: 'item', options: { side: 'right', alignY: 'bottom' } }],
@@ -135,7 +135,7 @@ export const RightBottom: Story = {
 
 export const InsideLeftTop: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     inset: INSET,
     main: FIXED_MAIN,
     items: [
@@ -148,7 +148,7 @@ export const InsideLeftTop: Story = {
 };
 export const InsideCenterMiddle: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     inset: INSET,
     main: FIXED_MAIN,
     items: [{ id: 'item', options: { side: 'inside' } }],
@@ -156,7 +156,7 @@ export const InsideCenterMiddle: Story = {
 };
 export const InsideRightBottom: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     inset: INSET,
     main: FIXED_MAIN,
     items: [
@@ -169,7 +169,7 @@ export const InsideRightBottom: Story = {
 };
 export const NegativeInset: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     inset: -8,
     main: FIXED_MAIN,
     items: [
@@ -185,7 +185,7 @@ export const NegativeInset: Story = {
 
 export const ItemOverride: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     gap: 4,
     inset: 4,
     main: FIXED_MAIN,
@@ -207,7 +207,7 @@ export const ItemOverride: Story = {
  */
 export const NoLayoutSpace: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     gap: GAP,
     main: FIXED_MAIN,
     surroundings: true,
@@ -225,7 +225,7 @@ export const NoLayoutSpace: Story = {
  */
 export const LargerThanMain: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     gap: GAP,
     main: FIXED_MAIN,
     items: [
@@ -248,7 +248,7 @@ export const LargerThanMain: Story = {
  */
 export const NoWrap: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     gap: GAP,
     main: FIXED_MAIN,
     items: [
@@ -267,7 +267,7 @@ export const NoWrap: Story = {
  */
 export const WithItemTransform: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     gap: GAP,
     main: FIXED_MAIN,
     items: [
@@ -280,6 +280,106 @@ export const WithItemTransform: Story = {
         id: 'left',
         options: { side: 'left' },
         style: { width: '40px', height: '20px', transform: 'rotate(30deg)' },
+      },
+    ],
+  },
+};
+
+// ===== 大きさの決め方 =====
+
+const SIZED_CONTAINER = { width: '300px', height: '200px' };
+
+export const SizingFill: Story = {
+  args: {
+    sizingX: 'fill',
+    sizingY: 'fill',
+    containerStyle: SIZED_CONTAINER,
+    mainClassName: 'story-main-fixed',
+  },
+};
+
+export const SizingKeep: Story = {
+  args: {
+    sizingX: 'keep',
+    sizingY: 'keep',
+    containerStyle: SIZED_CONTAINER,
+    mainClassName: 'story-main-fixed',
+  },
+};
+
+/**
+ * 本体がコンテナより大きい場合
+ */
+export const SizingKeepOverflow: Story = {
+  args: {
+    sizingX: 'keep',
+    sizingY: 'keep',
+    containerStyle: { width: '100px', height: '50px' },
+    mainClassName: 'story-main-large',
+  },
+};
+
+/**
+ * クラスで指定したコンテナの大きさはhugで上書きされる
+ */
+export const SizingHug: Story = {
+  args: {
+    sizingX: 'hug',
+    sizingY: 'hug',
+    containerClassName: 'story-container-sized',
+    mainClassName: 'story-main-fixed',
+  },
+};
+
+/**
+ * インラインスタイルで指定したコンテナの大きさはhugより優先される
+ */
+export const SizingHugInlineSize: Story = {
+  args: {
+    sizingX: 'hug',
+    sizingY: 'hug',
+    containerStyle: SIZED_CONTAINER,
+    mainClassName: 'story-main-fixed',
+  },
+};
+
+/**
+ * 幅を指定しない本体をkeepにすると幅は0になる
+ */
+export const SizingKeepWithoutMainWidth: Story = {
+  args: {
+    sizingX: 'keep',
+    mainClassName: 'story-main-bar',
+  },
+};
+
+/**
+ * プログレスバー: 横はfill、縦はkeep
+ */
+export const SizingProgressBar: Story = {
+  args: {
+    sizingX: 'fill',
+    sizingY: 'keep',
+    containerStyle: { height: '100px' },
+    mainClassName: 'story-main-bar',
+  },
+};
+
+/**
+ * fillでも装飾はコンテナを基準に配置される
+ */
+export const SizingFillWithItems: Story = {
+  args: {
+    gap: GAP,
+    sizingX: 'fill',
+    sizingY: 'fill',
+    containerStyle: SIZED_CONTAINER,
+    mainClassName: 'story-main-fixed',
+    items: [
+      { id: 'top', options: { side: 'top' } },
+      {
+        id: 'inside',
+        options: { side: 'inside', alignX: 'right', alignY: 'top' },
       },
     ],
   },

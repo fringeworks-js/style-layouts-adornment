@@ -1,11 +1,14 @@
 import type {
   GapOptions,
-  HugOptions,
   InsetOptions,
   ItemInsideOptions,
+  SizingOptions,
 } from '../../_types';
 
-export const HUG_OPTIONS_KEYS: (keyof HugOptions)[] = ['hug'] as const;
+export const SIZING_OPTIONS_KEYS: (keyof SizingOptions)[] = [
+  'sizingX',
+  'sizingY',
+] as const;
 export const GAP_OPTIONS_KEYS: (keyof GapOptions)[] = [
   'gap',
   'gapX',

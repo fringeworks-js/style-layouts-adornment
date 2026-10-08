@@ -43,3 +43,17 @@ export const AlignY = {
   bottom: 'bottom',
 } as const;
 export type AlignY = (typeof AlignY)[keyof typeof AlignY];
+
+/**
+ * 大きさの決め方
+ *
+ * - fill: 本体をコンテナの大きさに合わせる
+ * - keep: 本体の大きさを保ち、コンテナの中央に置く
+ * - hug: コンテナを本体の大きさに合わせる
+ */
+export const Sizing = {
+  fill: 'fill',
+  keep: 'keep',
+  hug: 'hug',
+} as const;
+export type Sizing = (typeof Sizing)[keyof typeof Sizing];

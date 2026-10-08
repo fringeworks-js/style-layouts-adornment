@@ -1,0 +1,48 @@
+// 本体とコンテナの大きさの決め方
+// sizingX / sizingY を指定した場合のみ本体に触れる
+// オプションで明示的に選択されたものなので、本体のスタイルより優先されるよう通常の詳細度にする
+
+// コンテナ
+// @param $prefix レイアウトのクラスの接頭辞 (例: frg-layout-affix)
+@mixin container($prefix) {
+  &.#{$prefix}-sizingX-hug {
+    // 横方向: コンテナを本体に合わせる
+    width: fit-content;
+  }
+  &.#{$prefix}-sizingY-hug {
+    // 縦方向: コンテナを本体に合わせる
+    height: fit-content;
+  }
+}
+
+// 本体
+// @param $prefix レイアウトのクラスの接頭辞 (例: frg-layout-affix)
+@mixin main($prefix) {
+  $main: '> :not(.#{$prefix}-item)';
+
+  .#{$prefix}.#{$prefix}-sizingX-fill #{$main} {
+    // 横方向: 本体をコンテナに合わせる
+    justify-self: stretch;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+  }
+  .#{$prefix}.#{$prefix}-sizingX-keep #{$main},
+  .#{$prefix}.#{$prefix}-sizingX-hug #{$main} {
+    // 横方向: 本体の大きさを保ち、中央に置く
+    justify-self: center;
+  }
+
+  .#{$prefix}.#{$prefix}-sizingY-fill #{$main} {
+    // 縦方向: 本体をコンテナに合わせる
+    align-self: stretch;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+  }
+  .#{$prefix}.#{$prefix}-sizingY-keep #{$main},
+  .#{$prefix}.#{$prefix}-sizingY-hug #{$main} {
+    // 縦方向: 本体の大きさを保ち、中央に置く
+    align-self: center;
+  }
+}

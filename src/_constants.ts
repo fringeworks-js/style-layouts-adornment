@@ -1,4 +1,4 @@
-import type { AlignX, AlignY, Side } from './constants';
+import type { AlignX, AlignY, Side, Sizing } from './constants';
 
 /**
  * 装飾のクラス
@@ -8,6 +8,14 @@ export type ItemClassNames = {
   side: Record<Side, string>;
   alignX: Record<AlignX, string>;
   alignY: Record<AlignY, string>;
+};
+
+/**
+ * 大きさの決め方のクラス
+ */
+export type SizingClassNames = {
+  x: Record<Sizing, string>;
+  y: Record<Sizing, string>;
 };
 
 /**
@@ -26,9 +34,34 @@ export type SpacingVars = {
 export const clsAffix = 'frg-layout-affix';
 
 /**
- * affix: コンテナの幅を本体と装飾に合わせる
+ * affix: 大きさの決め方(横方向): 本体をコンテナに合わせる
  */
-export const clsAffixHug = 'frg-layout-affix-hug';
+export const clsAffixSizingXFill = 'frg-layout-affix-sizingX-fill';
+
+/**
+ * affix: 大きさの決め方(横方向): 本体の大きさを保つ
+ */
+export const clsAffixSizingXKeep = 'frg-layout-affix-sizingX-keep';
+
+/**
+ * affix: 大きさの決め方(横方向): コンテナを本体に合わせる
+ */
+export const clsAffixSizingXHug = 'frg-layout-affix-sizingX-hug';
+
+/**
+ * affix: 大きさの決め方(縦方向): 本体をコンテナに合わせる
+ */
+export const clsAffixSizingYFill = 'frg-layout-affix-sizingY-fill';
+
+/**
+ * affix: 大きさの決め方(縦方向): 本体の大きさを保つ
+ */
+export const clsAffixSizingYKeep = 'frg-layout-affix-sizingY-keep';
+
+/**
+ * affix: 大きさの決め方(縦方向): コンテナを本体に合わせる
+ */
+export const clsAffixSizingYHug = 'frg-layout-affix-sizingY-hug';
 
 /**
  * affix: 装飾
@@ -115,6 +148,22 @@ export const varAffixInsetX = '--frg-layout-affix-insetX';
 export const varAffixInsetY = '--frg-layout-affix-insetY';
 
 /**
+ * affix: 大きさの決め方のクラス
+ */
+export const clsAffixSizingNames: SizingClassNames = {
+  x: {
+    fill: clsAffixSizingXFill,
+    keep: clsAffixSizingXKeep,
+    hug: clsAffixSizingXHug,
+  },
+  y: {
+    fill: clsAffixSizingYFill,
+    keep: clsAffixSizingYKeep,
+    hug: clsAffixSizingYHug,
+  },
+};
+
+/**
  * affix: 装飾のクラス
  */
 export const clsAffixItemNames: ItemClassNames = {
@@ -154,9 +203,34 @@ export const varAffixSpacing: SpacingVars = {
 export const clsSticker = 'frg-layout-sticker';
 
 /**
- * sticker: コンテナの幅を本体に合わせる
+ * sticker: 大きさの決め方(横方向): 本体をコンテナに合わせる
  */
-export const clsStickerHug = 'frg-layout-sticker-hug';
+export const clsStickerSizingXFill = 'frg-layout-sticker-sizingX-fill';
+
+/**
+ * sticker: 大きさの決め方(横方向): 本体の大きさを保つ
+ */
+export const clsStickerSizingXKeep = 'frg-layout-sticker-sizingX-keep';
+
+/**
+ * sticker: 大きさの決め方(横方向): コンテナを本体に合わせる
+ */
+export const clsStickerSizingXHug = 'frg-layout-sticker-sizingX-hug';
+
+/**
+ * sticker: 大きさの決め方(縦方向): 本体をコンテナに合わせる
+ */
+export const clsStickerSizingYFill = 'frg-layout-sticker-sizingY-fill';
+
+/**
+ * sticker: 大きさの決め方(縦方向): 本体の大きさを保つ
+ */
+export const clsStickerSizingYKeep = 'frg-layout-sticker-sizingY-keep';
+
+/**
+ * sticker: 大きさの決め方(縦方向): コンテナを本体に合わせる
+ */
+export const clsStickerSizingYHug = 'frg-layout-sticker-sizingY-hug';
 
 /**
  * sticker: 装飾
@@ -241,6 +315,22 @@ export const varStickerInsetX = '--frg-layout-sticker-insetX';
  * sticker: 本体の端からの距離: 縦方向
  */
 export const varStickerInsetY = '--frg-layout-sticker-insetY';
+
+/**
+ * sticker: 大きさの決め方のクラス
+ */
+export const clsStickerSizingNames: SizingClassNames = {
+  x: {
+    fill: clsStickerSizingXFill,
+    keep: clsStickerSizingXKeep,
+    hug: clsStickerSizingXHug,
+  },
+  y: {
+    fill: clsStickerSizingYFill,
+    keep: clsStickerSizingYKeep,
+    hug: clsStickerSizingYHug,
+  },
+};
 
 /**
  * sticker: 装飾のクラス

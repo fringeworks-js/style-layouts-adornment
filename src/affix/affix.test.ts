@@ -20,15 +20,19 @@ describe('affix', () => {
     });
   });
 
-  test('hug', () => {
-    expect(affix({ hug: true }).className).toBe(
-      'frg-layout-affix frg-layout-affix-hug',
+  test('sizingX / sizingY', () => {
+    expect(affix({ sizingX: 'fill', sizingY: 'hug' }).className).toBe(
+      'frg-layout-affix frg-layout-affix-sizingX-fill frg-layout-affix-sizingY-hug',
     );
-    expect(affix({ hug: false }).className).toBe('frg-layout-affix');
+    expect(affix({ sizingY: 'keep' }).className).toBe(
+      'frg-layout-affix frg-layout-affix-sizingY-keep',
+    );
   });
 
   test('nullは未指定として扱う', () => {
-    expect(affix({ hug: null, gap: null, inset: null })).toEqual({
+    expect(
+      affix({ sizingX: null, sizingY: null, gap: null, inset: null }),
+    ).toEqual({
       className: 'frg-layout-affix',
       style: {},
     });
@@ -115,8 +119,8 @@ describe('affixItem', () => {
 describe('helpers', () => {
   test('extractAffixOptions', () => {
     expect(
-      extractAffixOptions({ hug: true, gap: 4, inset: 2, id: 'a' }),
-    ).toEqual([{ hug: true, gap: 4, inset: 2 }, { id: 'a' }]);
+      extractAffixOptions({ sizingX: 'hug', gap: 4, inset: 2, id: 'a' }),
+    ).toEqual([{ sizingX: 'hug', gap: 4, inset: 2 }, { id: 'a' }]);
   });
 
   test('extractAffixItemOptions', () => {

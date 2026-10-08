@@ -1,18 +1,18 @@
 import type {
   GapOptions,
-  HugOptions,
   InsetOptions,
   ItemInsideOptions,
   ItemLeftRightOptions,
   ItemTopBottomOptions,
+  SizingOptions,
 } from '../_types';
 
-export type { HugOptions } from '../_types';
+export type { SizingOptions } from '../_types';
 
 /**
  * affixのオプション
  */
-export type AffixOptions = HugOptions & GapOptions & InsetOptions;
+export type AffixOptions = SizingOptions & GapOptions & InsetOptions;
 
 /**
  * affixで本体の上下に配置する装飾のオプション

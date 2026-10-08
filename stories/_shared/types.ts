@@ -1,4 +1,4 @@
-import type { AlignX, AlignY } from '../_internal/adapter';
+import type { AlignX, AlignY, Sizing } from '../_internal/adapter';
 
 /**
  * レイアウト名
@@ -13,10 +13,13 @@ export type LayoutName = 'affix' | 'sticker';
  */
 
 /**
- * hugに相当するargs
+ * sizingX / sizingYに相当するargs
+ *
+ * `none`の場合は指定しない
  */
-export type HugArgs = {
-  hug?: boolean;
+export type SizingArgs = {
+  sizingX?: Sizing | 'none';
+  sizingY?: Sizing | 'none';
 };
 
 /**
@@ -161,7 +164,7 @@ export type CenteringArgs = {
   stageOverflow?: 'visible' | 'auto';
 };
 
-export type StoryArgs = HugArgs &
+export type StoryArgs = SizingArgs &
   LayoutArgs &
   ItemArgs &
   DebugArgs &
@@ -181,9 +184,24 @@ export type StyleObj = Record<string, string>;
  */
 export type TestStoryArgs = Record<string, unknown> & {
   /**
-   * 本体のスタイル（未指定の場合は高さ40px）
+   * 本体のスタイル（未指定の場合は高さ40px。`mainClassName`を指定した場合はなし）
    */
   main?: StyleObj;
+
+  /**
+   * 本体のクラス（`debug.css`で大きさを指定する。インラインスタイルはsizingX / sizingYで上書きできないため）
+   */
+  mainClassName?: string;
+
+  /**
+   * コンテナのクラス（`debug.css`で大きさを指定する）
+   */
+  containerClassName?: string;
+
+  /**
+   * コンテナのスタイル
+   */
+  containerStyle?: StyleObj;
 
   /**
    * 本体の数

@@ -38,6 +38,10 @@ export type ContainerModel = {
    */
   main: {
     label: string;
+    /**
+     * 本体の大きさを指定するクラス（表示確認用）
+     */
+    className: string;
     style: StyleObj;
   };
 
@@ -68,13 +72,10 @@ const SIZING_STYLES: Record<NonNullable<DebugArgs['sizing']>, StyleObj> = {
 
 const MAIN_STYLES: Record<NonNullable<DebugArgs['main']>, StyleObj> = {
   bar: {
-    height: '8px',
     borderRadius: '4px',
     background: 'linear-gradient(to right, #6c9cab 45%, #d5e1e5 45%)',
   },
   box: {
-    width: '120px',
-    height: '80px',
     borderRadius: '4px',
     backgroundColor: '#a9c6cf',
   },
@@ -124,6 +125,8 @@ export default function createContainerModel(args: StoryArgs): ContainerModel {
     insideY = 'middle',
     topGap,
     insideInset,
+    sizingX,
+    sizingY,
     ...params
   } = args;
   const {
@@ -187,14 +190,16 @@ export default function createContainerModel(args: StoryArgs): ContainerModel {
   }
 
   return {
-    options: toAttributesObj(params),
+    options: toAttributesObj({
+      ...params,
+      sizingX: sizingX !== 'none' ? sizingX : undefined,
+      sizingY: sizingY !== 'none' ? sizingY : undefined,
+    }),
     resizable: {
       initialWidth: width,
       initialHeight: height,
       style: {
-        padding: '32px',
         overflow: stageOverflow,
-        border: '1px solid rgba(0, 0, 0, 0.2)',
       },
     },
     containerClassName: [
@@ -207,11 +212,13 @@ export default function createContainerModel(args: StoryArgs): ContainerModel {
       ...SIZING_STYLES[sizing],
       ...(display !== 'default' ? { display } : {}),
       boxSizing: 'border-box',
-      outline: '1px solid rgba(0, 0, 0, 0.1)',
       backgroundColor: '#f9fbfc',
+      border: '1px solid rgba(0,0,0,0.1)',
+      borderRadius: '4px',
     },
     main: {
       label: main === 'bar' ? '' : 'main',
+      className: main !== 'auto' ? `story-main-${main}` : '',
       style: {
         ...MAIN_STYLES[main],
         color: 'rgba(0, 0, 0, 0.4)',

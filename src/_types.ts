@@ -1,15 +1,20 @@
-import type { AlignX, AlignY } from './constants';
+import type { AlignX, AlignY, Sizing } from './constants';
 
 /**
- * コンテナの幅
+ * 本体とコンテナの大きさの決め方
  */
-export type HugOptions = {
+export type SizingOptions = {
   /**
-   * コンテナの幅を本体と装飾に合わせる
-   * 未指定の場合は親要素の幅に合わせる
-   * 幅を固定した本体(アバターなど)で、装飾を本体に揃える場合に指定する
+   * 横方向の大きさの決め方
+   * 未指定の場合は本体に触れない（幅のない本体はコンテナに広がり、幅のある本体はそのまま）
    */
-  hug?: boolean | null;
+  sizingX?: Sizing | null;
+
+  /**
+   * 縦方向の大きさの決め方
+   * 未指定の場合は本体に触れない（本体の高さのまま中央に置く）
+   */
+  sizingY?: Sizing | null;
 };
 
 /**

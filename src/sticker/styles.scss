@@ -1,4 +1,5 @@
 @use '../inside';
+@use '../sizing';
 
 .frg-layout-sticker {
   // 変数
@@ -11,9 +12,15 @@
   // 装飾の基準にするためposition: relative
   position: relative;
 
-  &.frg-layout-sticker-hug {
-    // 幅を本体に合わせる
-    width: fit-content;
+  @include sizing.container('frg-layout-sticker');
+
+  // 本体をコンテナに合わせる・中央に置く場合はgridで配置する
+  // (装飾は絶対配置のため、gridにしても位置は変わらない)
+  &.frg-layout-sticker-sizingX-fill,
+  &.frg-layout-sticker-sizingX-keep,
+  &.frg-layout-sticker-sizingY-fill,
+  &.frg-layout-sticker-sizingY-keep {
+    display: grid;
   }
 }
 
@@ -122,3 +129,5 @@
 }
 
 @include inside.fit('frg-layout-sticker');
+
+@include sizing.main('frg-layout-sticker');

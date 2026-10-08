@@ -9,6 +9,7 @@ export default function createTestRenderer(name: LayoutName) {
     const {
       options,
       wrapperStyle,
+      containerClassName,
       containerStyle,
       mains,
       items,
@@ -20,7 +21,9 @@ export default function createTestRenderer(name: LayoutName) {
     assignStyle(wrapper, wrapperStyle);
 
     const container = document.createElement('div');
-    if (className) container.className = className;
+    container.className = [className, containerClassName]
+      .filter(Boolean)
+      .join(' ');
     assignStyle(container, { ...containerStyle, ...style });
 
     // 装飾
@@ -38,6 +41,7 @@ export default function createTestRenderer(name: LayoutName) {
     for (const main of mains) {
       const element = document.createElement('div');
       element.dataset.testid = main.testId;
+      if (main.className) element.className = main.className;
       assignStyle(element, main.style);
       container.appendChild(element);
     }

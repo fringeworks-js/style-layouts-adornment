@@ -84,7 +84,7 @@ import {
 ## Main Element and Adornments
 
 - Any child element without the adornment function applied becomes the main element
-- Only the minimum styles each layout needs for placement are applied to the main element. All of them have zero specificity, so styles you set on the main element always take precedence
+- Unless [`sizingX` / `sizingY`](#sizing) is set, only the minimum styles each layout needs for placement are applied to the main element. All of them have zero specificity, so styles you set on the main element always take precedence
 - The main element must be an element. Text placed directly inside the container is not treated as the main element
 - Specify where an adornment goes with `side`, and how it aligns to the main element with `alignX` / `alignY`
 
@@ -95,6 +95,34 @@ import {
           └──────────────┘
                 bottom
 ```
+
+## Sizing
+
+`sizingX` (horizontal) and `sizingY` (vertical) set how the sizes of the main element and the container are determined. Every layout uses the same values, and each axis can be set independently.
+
+| Value    | Container size                                              | Main element size                                                                                     |
+| -------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| Not set  | Width follows the parent, height follows the content        | Left untouched (a main element without a set width expands horizontally; otherwise it keeps its size) |
+| `'fill'` | Width follows the parent, height follows the content        | Grows and shrinks to fit the container                                                                |
+| `'keep'` | Width follows the parent, height follows the content        | Keeps its own size and is centered in the container                                                   |
+| `'hug'`  | Shrinks to fit the main element (and adornments in `affix`) | Keeps its own size                                                                                    |
+
+```ts
+// Progress bar: width fits the container, height stays as the bar's
+affix({ sizingX: 'fill', sizingY: 'keep' });
+
+// Avatar badge: fit the container to the avatar so adornments line up with it
+sticker({ sizingX: 'hug', sizingY: 'hug' });
+
+// Card: stretch the main element across the container
+affix({ sizingX: 'fill', sizingY: 'fill' });
+```
+
+- When `'fill'` / `'keep'` / `'hug'` is set, the size and alignment styles of the main element (`width` / `height` / `justify-self` / `align-self`, etc.) are overridden with normal specificity. A size set on the main element with an inline style (`style` attribute) cannot be overridden
+- For `'fill'` to fit vertically, the container's height must be determined (set explicitly, stretched by a parent flex / grid, etc.). Otherwise the main element takes the height of its content
+- With `'keep'`, a main element larger than the container overflows to the right and bottom
+- `'keep'` / `'hug'` keep the main element's own size, so a main element without a set width (height) takes the size of its content. A main element with no content, such as a progress bar, becomes 0
+- **Container size and `'hug'`:** A `width` / `height` set on the container with CSS such as a class is overridden by `'hug'`. A size set with an inline style (`style` attribute) takes precedence, and `'hug'` has no effect
 
 ## Layout Types
 
@@ -149,28 +177,15 @@ const badge = affixItem({
 }); // sticks out at the top right
 ```
 
-#### Container Width
-
-By default, the container expands to the width of its parent. A main element without a set width, such as a progress bar, expands with the container.
-
-With a fixed-width main element, such as an avatar, empty space appears around it, and adornments align to that area instead of the main element. In this case, set `hug: true` to shrink the container to fit the main element and its adornments.
-
-```ts
-const container = affix({ hug: true });
-const badge = affixItem({ side: 'inside', alignX: 'right', alignY: 'top' });
-```
-
-> **Note:** If you set `hug` with a main element that has no set width, the main element becomes as wide as the adornments above and below it (or 0 if there are none).
-
 #### Styles Applied to the Main Element
 
-- Only `grid-area` and `align-self: center` for placement (zero specificity)
+- Without `sizingX` / `sizingY`, only `grid-area` and `align-self: center` for placement (zero specificity). When they are set, see [Sizing](#sizing)
 - If multiple child elements become the main element, they are stacked on top of each other. Wrap them in a `div` or similar if you don't want them to overlap
 
 #### Limitations
 
-- **Adornments larger than the main element:** The main element is centered in its row (column). Alignments other than `'middle'` / `'center'` and the position of adornments inside are based on the row (column), not the main element, so they may not line up with the main element
-- **Height of the main element:** The main element is centered in its row instead of stretched, so even a main element without a set height does not grow to the row's height. Set `align-self: stretch` on the main element to stretch it
+- **Adornments larger than the main element:** The main element is centered in its row (column). Alignments other than `'middle'` / `'center'` and the position of adornments inside are based on the row (column), not the main element, so they may not line up with the main element. Setting `sizingX` / `sizingY` to `'fill'` makes the main element match the row (column), which avoids this
+- **Height of the main element:** Without `sizingY`, the main element is centered in its row instead of stretched, so even a main element without a set height does not grow to the row's height. Set `sizingY: 'fill'` to stretch it
 - **Stacking order of adornments inside:** Adornments inside have `z-index: 1` so that they appear above the main element. If this affects how they overlap other elements on the page, set `z-index` on the adornment to adjust it
 
 ### `sticker`
@@ -180,7 +195,7 @@ Sticks adornments above, below, left, right of, or inside the main element. Ador
 ```ts
 import { sticker, stickerItem } from '@fringeworks/style-layouts-adornment';
 
-const container = sticker({ hug: true, inset: -8 });
+const container = sticker({ sizingX: 'hug', sizingY: 'hug', inset: -8 });
 const badge = stickerItem({ side: 'inside', alignX: 'right', alignY: 'top' });
 ```
 
@@ -192,15 +207,14 @@ const badge = stickerItem({ side: 'inside', alignX: 'right', alignY: 'top' });
 - Adornments above, below, left, and right do not wrap at the container width (`width: max-content`, zero specificity)
 - Even if an adornment is larger than the main element, the size and position of the main element do not change. Centered adornments line up with the center of the main element
 
-#### Container Width
+#### Sizing
 
-As with [`affix`](#affix), the container expands to the width of its parent by default, and shrinks to fit the main element with `hug: true`. Set `hug: true` for a fixed-width main element such as an avatar.
-
-> **Note:** If you set `hug` with a main element that has no set width, the main element's width becomes 0.
+Works as described in [Sizing](#sizing). For a fixed-width main element such as an avatar, set `sizingX: 'hug'` / `sizingY: 'hug'`. Otherwise the container expands to the width of its parent, and adornments end up away from the main element.
 
 #### Styles Applied to the Main Element
 
-- None. Only `position: relative` is set on the container
+- None without `sizingX` / `sizingY`. Only `position: relative` is set on the container
+- With `'fill'` / `'keep'`, the container becomes `display: grid` and the main element gets the styles described in [Sizing](#sizing)
 
 #### Limitations
 
@@ -218,15 +232,16 @@ affix(options?: AffixOptions): LayoutStyle
 
 Returns the class names and styles for the container of the `affix` layout.
 
-| Option    | Type      | Description                                                                                   |
-| --------- | --------- | --------------------------------------------------------------------------------------------- |
-| `hug?`    | `boolean` | Fit the container width to the main element and adornments (default `false`)                  |
-| `gap?`    | `number`  | Spacing between the main element and adornments above, below, left, right (px, both axes)     |
-| `gapX?`   | `number`  | Spacing between the main element and adornments on the left and right (px)                    |
-| `gapY?`   | `number`  | Spacing between the main element and adornments above and below (px)                          |
-| `inset?`  | `number`  | Distance from the main element's edges to adornments inside (px, both axes, negative allowed) |
-| `insetX?` | `number`  | Distance from the main element's left and right edges to adornments inside (px)               |
-| `insetY?` | `number`  | Distance from the main element's top and bottom edges to adornments inside (px)               |
+| Option     | Type                       | Description                                                                                   |
+| ---------- | -------------------------- | --------------------------------------------------------------------------------------------- |
+| `sizingX?` | [`Sizing`](#sizing-values) | How the horizontal size is determined (the main element is left untouched when not set)       |
+| `sizingY?` | [`Sizing`](#sizing-values) | How the vertical size is determined (the main element is left untouched when not set)         |
+| `gap?`     | `number`                   | Spacing between the main element and adornments above, below, left, right (px, both axes)     |
+| `gapX?`    | `number`                   | Spacing between the main element and adornments on the left and right (px)                    |
+| `gapY?`    | `number`                   | Spacing between the main element and adornments above and below (px)                          |
+| `inset?`   | `number`                   | Distance from the main element's edges to adornments inside (px, both axes, negative allowed) |
+| `insetX?`  | `number`                   | Distance from the main element's left and right edges to adornments inside (px)               |
+| `insetY?`  | `number`                   | Distance from the main element's top and bottom edges to adornments inside (px)               |
 
 ### `affixItem`
 
@@ -308,7 +323,15 @@ Splits an object into the options for each layout function and the remaining pro
 | `'middle'` | Centered          |
 | `'bottom'` | Bottom-aligned    |
 
-The `Side` / `AlignX` / `AlignY` constants can be imported from `@fringeworks/style-layouts-adornment/constants`.
+### `Sizing` Values
+
+| Value    | How sizes are determined                                    |
+| -------- | ----------------------------------------------------------- |
+| `'fill'` | Fit the main element to the container                       |
+| `'keep'` | Keep the main element's size and center it in the container |
+| `'hug'`  | Fit the container to the main element                       |
+
+The `Side` / `AlignX` / `AlignY` / `Sizing` constants can be imported from `@fringeworks/style-layouts-adornment/constants`.
 
 ### Types
 
@@ -325,7 +348,7 @@ The `Side` / `AlignX` / `AlignY` constants can be imported from `@fringeworks/st
 | `StickerItemTopBottomOptions` | Options when `side` is `'top'` / `'bottom'`            |
 | `StickerItemLeftRightOptions` | Options when `side` is `'left'` / `'right'`            |
 | `StickerItemInsideOptions`    | Options when `side` is `'inside'`                      |
-| `HugOptions`                  | The `hug` option                                       |
+| `SizingOptions`               | The `sizingX` / `sizingY` options                      |
 
 ```ts
 type LayoutStyle = {

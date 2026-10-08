@@ -59,3 +59,28 @@
     transform: scale(1.4);
   }
 }
+
+/* ===== 本体の大きさ ===== */
+/* 実際のコンポーネントのように、本体の大きさをクラスで指定する */
+/* (インラインスタイルはsizingX / sizingYのfillでも上書きできないため) */
+.story-main-bar {
+  height: 8px;
+}
+.story-main-box {
+  width: 120px;
+  height: 80px;
+}
+
+/* ===== specの本体・コンテナの大きさ ===== */
+.story-main-fixed {
+  width: 100px;
+  height: 60px;
+}
+.story-main-large {
+  width: 200px;
+  height: 100px;
+}
+.story-container-sized {
+  width: 300px;
+  height: 200px;
+}

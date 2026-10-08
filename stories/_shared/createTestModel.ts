@@ -1,3 +1,4 @@
+import './debug.css';
 import type { StyleObj, TestStoryArgs } from './types';
 
 /**
@@ -18,6 +19,11 @@ export type TestModel = {
   wrapperStyle: StyleObj;
 
   /**
+   * コンテナのクラス（レイアウトのクラスは含まない）
+   */
+  containerClassName: string;
+
+  /**
    * コンテナのスタイル（レイアウトのスタイルは含まない）
    */
   containerStyle: StyleObj;
@@ -27,6 +33,7 @@ export type TestModel = {
    */
   mains: {
     testId: string;
+    className: string;
     style: StyleObj;
   }[];
 
@@ -70,7 +77,10 @@ const SURROUNDING_STYLE: StyleObj = {
  */
 export default function createTestModel(args: TestStoryArgs): TestModel {
   const {
-    main = MAIN_STYLE,
+    mainClassName = '',
+    main = mainClassName ? {} : MAIN_STYLE,
+    containerClassName = '',
+    containerStyle = {},
     mainCount = 1,
     items = [],
     surroundings = false,
@@ -82,11 +92,14 @@ export default function createTestModel(args: TestStoryArgs): TestModel {
     wrapperStyle: {
       padding: '100px',
     },
+    containerClassName,
     containerStyle: {
       backgroundColor: 'rgba(128, 128, 128, 0.1)',
+      ...containerStyle,
     },
     mains: Array.from({ length: mainCount }).map((_, index) => ({
       testId: index === 0 ? 'main' : `main-${index + 1}`,
+      className: mainClassName,
       style: {
         backgroundColor: '#a9c6cf',
         ...main,

@@ -39,6 +39,9 @@ export default function createContainer(
   // 本体
   const mainElement = document.createElement('div');
   mainElement.innerText = main.label;
+  if (main.className) {
+    mainElement.className = main.className;
+  }
   assignStyle(mainElement, main.style);
   container.appendChild(mainElement);
 

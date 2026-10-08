@@ -1,11 +1,11 @@
 import type { ArgTypes } from '../_internal/adapter';
-import { AlignX, AlignY } from '../_internal/adapter';
+import { AlignX, AlignY, Sizing } from '../_internal/adapter';
 import type {
   DebugArgs,
-  HugArgs,
   ItemArgs,
   LayoutArgs,
   LayoutName,
+  SizingArgs,
   StoryArgs,
 } from './types';
 
@@ -18,9 +18,16 @@ export const ALIGN_X_ARG_OPTIONS = Object.values(AlignX);
 
 export const ALIGN_Y_ARG_OPTIONS = Object.values(AlignY);
 
-export const HUG_ARG_TYPES: ArgTypes<HugArgs> = {
-  hug: {
-    control: 'boolean',
+export const SIZING_ARG_OPTIONS = ['none', ...Object.values(Sizing)];
+
+export const SIZING_ARG_TYPES: ArgTypes<SizingArgs> = {
+  sizingX: {
+    control: 'select',
+    options: SIZING_ARG_OPTIONS,
+  },
+  sizingY: {
+    control: 'select',
+    options: SIZING_ARG_OPTIONS,
   },
 };
 
@@ -104,13 +111,13 @@ export const DEBUG_ARG_TYPES: ArgTypes<DebugArgs> = {
 
 export const ARG_TYPES: Record<LayoutName, ArgTypes<StoryArgs>> = {
   affix: {
-    ...HUG_ARG_TYPES,
+    ...SIZING_ARG_TYPES,
     ...LAYOUT_ARG_TYPES,
     ...ITEM_ARG_TYPES,
     ...DEBUG_ARG_TYPES,
   },
   sticker: {
-    ...HUG_ARG_TYPES,
+    ...SIZING_ARG_TYPES,
     ...LAYOUT_ARG_TYPES,
     ...ITEM_ARG_TYPES,
     ...DEBUG_ARG_TYPES,

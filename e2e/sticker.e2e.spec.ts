@@ -6,7 +6,8 @@ const STORY_URL = (storyId: string) =>
 const gotoStory = async (page: Page, storyId: string) => {
   await page.setViewportSize({ width: 800, height: 600 });
   await page.goto(STORY_URL(storyId));
-  await page.waitForSelector('[data-testid="main"]');
+  // 幅が0の本体もあるため、表示ではなく要素の存在を待つ
+  await page.waitForSelector('[data-testid="main"]', { state: 'attached' });
 };
 
 const GAP = 8;
@@ -258,5 +259,92 @@ test.describe('sticker - レイアウトへの影響', () => {
     const left = await getRect(page, 'left');
     expect(midX(top)).toBeCloseTo(midX(main), 0);
     expect(midY(left)).toBeCloseTo(midY(main), 0);
+  });
+});
+
+// ===== 大きさの決め方 =====
+
+test.describe('sticker - 大きさの決め方', () => {
+  test('fill: 本体がコンテナに合わせて伸び縮みする', async ({ page }) => {
+    await gotoStory(page, 'sizing-fill');
+    const main = await getRect(page, 'main');
+    const container = await getContainerRect(page);
+    expect(main.left).toBeCloseTo(container.left, 0);
+    expect(main.top).toBeCloseTo(container.top, 0);
+    expect(main.width).toBeCloseTo(300, 0);
+    expect(main.height).toBeCloseTo(200, 0);
+  });
+
+  test('keep: 本体の大きさのまま中央に置かれる', async ({ page }) => {
+    await gotoStory(page, 'sizing-keep');
+    const main = await getRect(page, 'main');
+    const container = await getContainerRect(page);
+    expect(main.width).toBeCloseTo(100, 0);
+    expect(main.height).toBeCloseTo(60, 0);
+    expect(midX(main)).toBeCloseTo(midX(container), 0);
+    expect(midY(main)).toBeCloseTo(midY(container), 0);
+  });
+
+  test('keep: 本体がコンテナより大きい場合は右と下にはみ出す', async ({
+    page,
+  }) => {
+    await gotoStory(page, 'sizing-keep-overflow');
+    const main = await getRect(page, 'main');
+    const container = await getContainerRect(page);
+    expect(main.width).toBeCloseTo(200, 0);
+    expect(main.height).toBeCloseTo(100, 0);
+    expect(main.left).toBeCloseTo(container.left, 0);
+    expect(main.top).toBeCloseTo(container.top, 0);
+  });
+
+  test('keep: 幅を指定しない本体は幅が0になる', async ({ page }) => {
+    await gotoStory(page, 'sizing-keep-without-main-width');
+    const main = await getRect(page, 'main');
+    expect(main.width).toBeCloseTo(0, 0);
+  });
+
+  test('hug: クラスで指定したコンテナの大きさを上書きし、本体に合わせる', async ({
+    page,
+  }) => {
+    await gotoStory(page, 'sizing-hug');
+    const main = await getRect(page, 'main');
+    const container = await getContainerRect(page);
+    expect(container.width).toBeCloseTo(100, 0);
+    expect(container.height).toBeCloseTo(60, 0);
+    expect(main.left).toBeCloseTo(container.left, 0);
+    expect(main.top).toBeCloseTo(container.top, 0);
+  });
+
+  test('hug: インラインスタイルで指定したコンテナの大きさが優先される', async ({
+    page,
+  }) => {
+    await gotoStory(page, 'sizing-hug-inline-size');
+    const main = await getRect(page, 'main');
+    const container = await getContainerRect(page);
+    expect(container.width).toBeCloseTo(300, 0);
+    expect(container.height).toBeCloseTo(200, 0);
+    expect(main.width).toBeCloseTo(100, 0);
+    expect(midX(main)).toBeCloseTo(midX(container), 0);
+  });
+
+  test('横はfill、縦はkeepを組み合わせられる', async ({ page }) => {
+    await gotoStory(page, 'sizing-progress-bar');
+    const main = await getRect(page, 'main');
+    const container = await getContainerRect(page);
+    expect(main.width).toBeCloseTo(container.width, 0);
+    expect(main.height).toBeCloseTo(8, 0);
+    expect(midY(main)).toBeCloseTo(midY(container), 0);
+  });
+
+  test('fill: 装飾はコンテナを基準に配置される', async ({ page }) => {
+    await gotoStory(page, 'sizing-fill-with-items');
+    const main = await getRect(page, 'main');
+    const top = await getRect(page, 'top');
+    const inside = await getRect(page, 'inside');
+    const container = await getContainerRect(page);
+    expectSameRect(main, container);
+    expect(top.bottom).toBeCloseTo(container.top - GAP, 0);
+    expect(inside.right).toBeCloseTo(container.right, 0);
+    expect(inside.top).toBeCloseTo(container.top, 0);
   });
 });

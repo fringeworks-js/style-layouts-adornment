@@ -161,7 +161,7 @@ export const InsideLargerThanMain: Story = {
  */
 export const NegativeInset: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     inset: -8,
     main: FIXED_MAIN,
     items: [
@@ -215,7 +215,7 @@ export const FixedMain: Story = {
 
 export const Hug: Story = {
   args: {
-    hug: true,
+    sizingX: 'hug',
     gap: GAP,
     main: FIXED_MAIN,
     items: [
@@ -265,5 +265,123 @@ export const InsideAboveMain: Story = {
   args: {
     main: { height: '60px', position: 'relative' },
     items: [{ id: 'item', options: { side: 'inside' } }],
+  },
+};
+
+// ===== 大きさの決め方 =====
+
+const SIZED_CONTAINER = { width: '300px', height: '200px' };
+
+export const SizingFill: Story = {
+  args: {
+    sizingX: 'fill',
+    sizingY: 'fill',
+    containerStyle: SIZED_CONTAINER,
+    mainClassName: 'story-main-fixed',
+  },
+};
+
+export const SizingKeep: Story = {
+  args: {
+    sizingX: 'keep',
+    sizingY: 'keep',
+    containerStyle: SIZED_CONTAINER,
+    mainClassName: 'story-main-fixed',
+  },
+};
+
+/**
+ * 本体がコンテナより大きい場合
+ */
+export const SizingKeepOverflow: Story = {
+  args: {
+    sizingX: 'keep',
+    sizingY: 'keep',
+    containerStyle: { width: '100px', height: '50px' },
+    mainClassName: 'story-main-large',
+  },
+};
+
+/**
+ * クラスで指定したコンテナの大きさはhugで上書きされる
+ */
+export const SizingHug: Story = {
+  args: {
+    sizingX: 'hug',
+    sizingY: 'hug',
+    containerClassName: 'story-container-sized',
+    mainClassName: 'story-main-fixed',
+  },
+};
+
+/**
+ * インラインスタイルで指定したコンテナの大きさはhugより優先される
+ */
+export const SizingHugInlineSize: Story = {
+  args: {
+    sizingX: 'hug',
+    sizingY: 'hug',
+    containerStyle: SIZED_CONTAINER,
+    mainClassName: 'story-main-fixed',
+  },
+};
+
+/**
+ * 幅を指定しない本体をkeepにすると幅は0になる
+ */
+export const SizingKeepWithoutMainWidth: Story = {
+  args: {
+    sizingX: 'keep',
+    mainClassName: 'story-main-bar',
+  },
+};
+
+/**
+ * プログレスバー: 横はfill、縦はkeep
+ */
+export const SizingProgressBar: Story = {
+  args: {
+    sizingX: 'fill',
+    sizingY: 'keep',
+    containerStyle: { height: '100px' },
+    mainClassName: 'story-main-bar',
+  },
+};
+
+/**
+ * fillの本体は装飾を除いた領域いっぱいになる
+ */
+export const SizingFillWithItems: Story = {
+  args: {
+    gap: GAP,
+    sizingX: 'fill',
+    sizingY: 'fill',
+    containerStyle: SIZED_CONTAINER,
+    mainClassName: 'story-main-fixed',
+    items: [
+      { id: 'top', options: { side: 'top' } },
+      { id: 'left', options: { side: 'left' } },
+      {
+        id: 'inside',
+        options: { side: 'inside', alignX: 'right', alignY: 'top' },
+      },
+    ],
+  },
+};
+
+/**
+ * コンテナの高さが決まっていない場合、縦のfillは行の高さになる
+ */
+export const SizingFillAutoHeight: Story = {
+  args: {
+    sizingY: 'fill',
+    mainClassName: 'story-main-fixed',
+    items: [
+      {
+        id: 'left',
+        options: { side: 'left' },
+        style: { width: '40px', height: '120px' },
+      },
+    ],
   },
 };
