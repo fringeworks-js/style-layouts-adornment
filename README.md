@@ -39,7 +39,7 @@ const percent = affixItem({ side: 'inside' });
 ```html
 <div
   class="frg-layout-affix"
-  style="--frg-layout-affix-gapX: 4px; --frg-layout-affix-gapY: 4px"
+  style="--frg-layout-affix-gapX: 4px; --frg-layout-affix-gapY: 4px; --frg-layout-affix-insetX: 0px; --frg-layout-affix-insetY: 0px"
 >
   <div class="progress-bar"></div>
   <span
@@ -104,7 +104,7 @@ import {
 | -------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | Not set  | Width follows the parent, height follows the content        | Left untouched (a main element without a set width expands horizontally; otherwise it keeps its size) |
 | `'fill'` | Width follows the parent, height follows the content        | Grows and shrinks to fit the container                                                                |
-| `'keep'` | Width follows the parent, height follows the content        | Keeps its own size and is centered in the container                                                   |
+| `'keep'` | Width follows the parent, height follows the content        | Keeps its own size and is centered in the container (adornments line up with it)                      |
 | `'hug'`  | Shrinks to fit the main element (and adornments in `affix`) | Keeps its own size                                                                                    |
 
 ```ts
@@ -120,7 +120,8 @@ affix({ sizingX: 'fill', sizingY: 'fill' });
 
 - When `'fill'` / `'keep'` / `'hug'` is set, the size and alignment styles of the main element (`width` / `height` / `justify-self` / `align-self`, etc.) are overridden with normal specificity. A size set on the main element with an inline style (`style` attribute) cannot be overridden
 - For `'fill'` to fit vertically, the container's height must be determined (set explicitly, stretched by a parent flex / grid, etc.). Otherwise the main element takes the height of its content
-- With `'keep'`, a main element larger than the container overflows to the right and bottom
+- With `'keep'`, adornments are placed relative to the main element. In `affix`, the main element and its adornments above, below, left, and right are centered in the container as a group, so the main element shifts slightly off-center when adornments are on one side only. In `sticker`, adornments take up no space, so the main element itself is centered
+- With `'keep'`, a main element larger than the container (in `affix`, the group of the main element and adornments) overflows to the right and bottom
 - `'keep'` / `'hug'` keep the main element's own size, so a main element without a set width (height) takes the size of its content. A main element with no content, such as a progress bar, becomes 0
 - **Container size and `'hug'`:** A `width` / `height` set on the container with CSS such as a class is overridden by `'hug'`. A size set with an inline style (`style` attribute) takes precedence, and `'hug'` has no effect
 
@@ -161,7 +162,8 @@ const title = affixItem({ side: 'top', alignX: 'left' });
 | `gap` / `gapX` / `gapY`       | Adornments above, below, left, right | Spacing from the main element         |
 | `inset` / `insetX` / `insetY` | Adornments inside                    | Distance from the main element's edge |
 
-- Values set on the container are the defaults for all adornments. Passing the same option to `affixItem()` overrides it for that adornment only
+- Values set on the container are the defaults for all adornments (0 when not set). Passing the same option to `affixItem()` overrides it for that adornment only
+- In `affixItem()`, adornments above and below accept `gap` / `gapY`, and adornments on the left and right accept `gap` / `gapX` (only the spacing on the axis facing the main element matters)
 - No spacing is added on sides without adornments
 - `inset` accepts negative values to let an adornment stick out past the main element's edge
 - On a centered axis, `inset` is applied equally to both edges, so the position does not change
@@ -187,6 +189,8 @@ const badge = affixItem({
 - **Adornments larger than the main element:** The main element is centered in its row (column). Alignments other than `'middle'` / `'center'` and the position of adornments inside are based on the row (column), not the main element, so they may not line up with the main element. Setting `sizingX` / `sizingY` to `'fill'` makes the main element match the row (column), which avoids this
 - **Height of the main element:** Without `sizingY`, the main element is centered in its row instead of stretched, so even a main element without a set height does not grow to the row's height. Set `sizingY: 'fill'` to stretch it
 - **Stacking order of adornments inside:** Adornments inside have `z-index: 1` so that they appear above the main element. If this affects how they overlap other elements on the page, set `z-index` on the adornment to adjust it
+- **Fixed-size main element:** Without `sizingX` / `sizingY`, adornments are placed relative to the column (row) holding the main element, not the main element itself. The column (row) can be larger than the main element, so set `'hug'` or `'keep'` to line adornments up with the main element
+- **Elements that are both a container and an adornment:** When both `affix()` and `affixItem()` are applied to one element (such as an affix inside an affix), the spacing values that `affix()` outputs on that element take precedence over the parent container's values. This is a limitation of how CSS custom properties are inherited. To use the parent container's values, wrap the inner container in a `div` or similar and apply `affixItem()` to the wrapper
 
 ### `sticker`
 
@@ -209,17 +213,19 @@ const badge = stickerItem({ side: 'inside', alignX: 'right', alignY: 'top' });
 
 #### Sizing
 
-Works as described in [Sizing](#sizing). For a fixed-width main element such as an avatar, set `sizingX: 'hug'` / `sizingY: 'hug'`. Otherwise the container expands to the width of its parent, and adornments end up away from the main element.
+Works as described in [Sizing](#sizing). For a fixed-width main element such as an avatar, set `sizingX: 'hug'` / `sizingY: 'hug'` (or `'keep'` to keep the container at the width of its parent). Otherwise the container expands to the width of its parent, and adornments end up away from the main element.
 
 #### Styles Applied to the Main Element
 
-- None without `sizingX` / `sizingY`. Only `position: relative` is set on the container
-- With `'fill'` / `'keep'`, the container becomes `display: grid` and the main element gets the styles described in [Sizing](#sizing)
+- None without `sizingX` / `sizingY`. Only `position: relative` is set on the container. As a result, an inline main element such as `<img>` may get a line gap below it, which shifts adornments away from it. Set `display: block` on the main element, or set `sizingX` / `sizingY`
+- With `sizingX` / `sizingY`, the container becomes `display: grid` and the main element gets the styles described in [Sizing](#sizing)
+- On an axis set to `'keep'`, the main element and adornments are placed in the center track of the container (`grid-column` / `grid-row` with normal specificity). Use a single main element; wrap multiple ones in a `div` or similar
 
 #### Limitations
 
 - **Overlapping surrounding elements:** Adornments above, below, left, and right do not take up space in the layout, so they may overlap surrounding elements. Add space around the container if you don't want them to overlap
 - **Stacking order of adornments:** Adornments have `z-index: 1`. If this affects how they overlap other elements on the page, set `z-index` on the adornment to adjust it
+- **Elements that are both a container and an adornment:** Same as the [`affix`](#affix) limitation
 - **Centering in Chrome / Edge 103 and earlier:** In browsers that do not support the `translate` property, `'center'` for adornments above and below and `'middle'` for adornments on the left and right are centered with a different technique. In that case, setting the width of an adornment above or below (or the height of one on the left or right) to `auto` makes it stretch across the width (height) of the screen. To change the width or height of an adornment, use a concrete value instead of `auto`
 
 ## API
@@ -232,16 +238,16 @@ affix(options?: AffixOptions): LayoutStyle
 
 Returns the class names and styles for the container of the `affix` layout.
 
-| Option     | Type                       | Description                                                                                   |
-| ---------- | -------------------------- | --------------------------------------------------------------------------------------------- |
-| `sizingX?` | [`Sizing`](#sizing-values) | How the horizontal size is determined (the main element is left untouched when not set)       |
-| `sizingY?` | [`Sizing`](#sizing-values) | How the vertical size is determined (the main element is left untouched when not set)         |
-| `gap?`     | `number`                   | Spacing between the main element and adornments above, below, left, right (px, both axes)     |
-| `gapX?`    | `number`                   | Spacing between the main element and adornments on the left and right (px)                    |
-| `gapY?`    | `number`                   | Spacing between the main element and adornments above and below (px)                          |
-| `inset?`   | `number`                   | Distance from the main element's edges to adornments inside (px, both axes, negative allowed) |
-| `insetX?`  | `number`                   | Distance from the main element's left and right edges to adornments inside (px)               |
-| `insetY?`  | `number`                   | Distance from the main element's top and bottom edges to adornments inside (px)               |
+| Option     | Type                       | Description                                                                                              |
+| ---------- | -------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `sizingX?` | [`Sizing`](#sizing-values) | How the horizontal size is determined (the main element is left untouched when not set)                  |
+| `sizingY?` | [`Sizing`](#sizing-values) | How the vertical size is determined (the main element is left untouched when not set)                    |
+| `gap?`     | `number`                   | Spacing between the main element and adornments above, below, left, right (px, both axes, default 0)     |
+| `gapX?`    | `number`                   | Spacing between the main element and adornments on the left and right (px)                               |
+| `gapY?`    | `number`                   | Spacing between the main element and adornments above and below (px)                                     |
+| `inset?`   | `number`                   | Distance from the main element's edges to adornments inside (px, both axes, negative allowed, default 0) |
+| `insetX?`  | `number`                   | Distance from the main element's left and right edges to adornments inside (px)                          |
+| `insetY?`  | `number`                   | Distance from the main element's top and bottom edges to adornments inside (px)                          |
 
 ### `affixItem`
 
@@ -257,8 +263,8 @@ Returns the class names and styles for an adornment of the `affix` layout. The a
 | `alignX?` | [`AlignX`](#alignx-values) | Horizontal position (default `'center'`)                                             | `'top'` / `'bottom'` / `'inside'`           |
 | `alignY?` | [`AlignY`](#aligny-values) | Vertical position (default `'middle'`)                                               | `'left'` / `'right'` / `'inside'`           |
 | `gap?`    | `number`                   | Spacing from the main element; overrides the container value (px, both axes)         | `'top'` / `'bottom'` / `'left'` / `'right'` |
-| `gapX?`   | `number`                   | Same as above (px, horizontal)                                                       | `'top'` / `'bottom'` / `'left'` / `'right'` |
-| `gapY?`   | `number`                   | Same as above (px, vertical)                                                         | `'top'` / `'bottom'` / `'left'` / `'right'` |
+| `gapX?`   | `number`                   | Same as above (px, horizontal)                                                       | `'left'` / `'right'`                        |
+| `gapY?`   | `number`                   | Same as above (px, vertical)                                                         | `'top'` / `'bottom'`                        |
 | `inset?`  | `number`                   | Distance from the main element's edge; overrides the container value (px, both axes) | `'inside'`                                  |
 | `insetX?` | `number`                   | Same as above (px, horizontal)                                                       | `'inside'`                                  |
 | `insetY?` | `number`                   | Same as above (px, vertical)                                                         | `'inside'`                                  |
@@ -325,11 +331,11 @@ Splits an object into the options for each layout function and the remaining pro
 
 ### `Sizing` Values
 
-| Value    | How sizes are determined                                    |
-| -------- | ----------------------------------------------------------- |
-| `'fill'` | Fit the main element to the container                       |
-| `'keep'` | Keep the main element's size and center it in the container |
-| `'hug'`  | Fit the container to the main element                       |
+| Value    | How sizes are determined                                                                 |
+| -------- | ---------------------------------------------------------------------------------------- |
+| `'fill'` | Fit the main element to the container                                                    |
+| `'keep'` | Keep the main element's size and center it in the container (adornments line up with it) |
+| `'hug'`  | Fit the container to the main element                                                    |
 
 The `Side` / `AlignX` / `AlignY` / `Sizing` constants can be imported from `@fringeworks/style-layouts-adornment/constants`.
 

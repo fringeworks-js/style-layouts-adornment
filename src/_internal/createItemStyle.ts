@@ -1,28 +1,33 @@
 import type { ItemClassNames, SpacingVars } from '../_constants';
-import type { GapOptions, InsetOptions, ItemOptions } from '../_types';
+import type { ItemOptions } from '../_types';
 import type { AlignX, AlignY, Side } from '../constants';
 import type { LayoutStyle } from '../types';
-import applyGap from './applyGap';
-import applyInset from './applyInset';
 import mergeClassName from './mergeClassName';
+import resolveValue from './resolveValue';
+import unit from './unit';
 
 /**
  * 全てのsideのオプションを展開した型
  */
-type ItemFlatOptions = GapOptions &
-  InsetOptions & {
-    side: Side;
-    alignX?: AlignX | null;
-    alignY?: AlignY | null;
-  };
+type ItemFlatOptions = {
+  side: Side;
+  alignX?: AlignX;
+  alignY?: AlignY;
+  gap?: number;
+  gapX?: number;
+  gapY?: number;
+  inset?: number;
+  insetX?: number;
+  insetY?: number;
+};
 
 /**
  * 装飾のクラスとスタイルを作る
  *
- * - top / bottom: alignXのみ適用する
- * - left / right: alignYのみ適用する
- * - inside: alignX / alignYを適用する
- * - 外側はgap、内側はinsetでコンテナの値を上書きする
+ * - top / bottom: alignX・縦方向の間隔のみ適用する
+ * - left / right: alignY・横方向の間隔のみ適用する
+ * - inside: alignX / alignY・距離を適用する
+ * - 間隔・距離は指定した場合のみ出力し、コンテナの値を上書きする
  * @param classNames レイアウトの装飾のクラス
  * @param vars レイアウトの変数
  * @param options 装飾のオプション
@@ -37,25 +42,32 @@ export default function createItemStyle(
   const isOutsideX = side === 'left' || side === 'right';
   const isOutsideY = side === 'top' || side === 'bottom';
 
-  const result: LayoutStyle = {
-    className: mergeClassName(
-      classNames.item,
-      classNames.side[side],
-      // 左右に配置する場合は横位置が決まっているため不要
-      !isOutsideX ? classNames.alignX[alignX ?? 'center'] : null,
-      // 上下に配置する場合は縦位置が決まっているため不要
-      !isOutsideY ? classNames.alignY[alignY ?? 'middle'] : null,
-    ),
-    style: {},
-  };
+  const className = mergeClassName(
+    classNames.item,
+    classNames.side[side],
+    // 左右に配置する場合は横位置が決まっているため不要
+    !isOutsideX ? classNames.alignX[alignX ?? 'center'] : null,
+    // 上下に配置する場合は縦位置が決まっているため不要
+    !isOutsideY ? classNames.alignY[alignY ?? 'middle'] : null,
+  );
 
-  if (side === 'inside') {
-    // 本体の端から内側の装飾までの距離
-    applyInset(result, vars, inset, insetX, insetY);
+  const style: NonNullable<LayoutStyle['style']> = {};
+  const setVar = (name: `--${string}`, value: number | undefined) => {
+    if (value !== undefined) {
+      style[name] = unit(value);
+    }
+  };
+  if (isOutsideY) {
+    // 本体と上下の装飾との間隔
+    setVar(vars.gap.y, resolveValue(gapY, gap));
+  } else if (isOutsideX) {
+    // 本体と左右の装飾との間隔
+    setVar(vars.gap.x, resolveValue(gapX, gap));
   } else {
-    // 本体と外側の装飾との間隔
-    applyGap(result, vars, gap, gapX, gapY);
+    // 本体の端から内側の装飾までの距離
+    setVar(vars.inset.x, resolveValue(insetX, inset));
+    setVar(vars.inset.y, resolveValue(insetY, inset));
   }
 
-  return result;
+  return { className, style };
 }

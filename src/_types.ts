@@ -8,13 +8,13 @@ export type SizingOptions = {
    * 横方向の大きさの決め方
    * 未指定の場合は本体に触れない（幅のない本体はコンテナに広がり、幅のある本体はそのまま）
    */
-  sizingX?: Sizing | null;
+  sizingX?: Sizing;
 
   /**
    * 縦方向の大きさの決め方
    * 未指定の場合は本体に触れない（本体の高さのまま中央に置く）
    */
-  sizingY?: Sizing | null;
+  sizingY?: Sizing;
 };
 
 /**
@@ -23,18 +23,21 @@ export type SizingOptions = {
 export type GapOptions = {
   /**
    * 間隔
+   * 未指定の場合は0（装飾ではコンテナの値）
    */
-  gap?: number | null;
+  gap?: number;
 
   /**
    * 横方向の間隔
+   * 未指定の場合は`gap`
    */
-  gapX?: number | null;
+  gapX?: number;
 
   /**
    * 縦方向の間隔
+   * 未指定の場合は`gap`
    */
-  gapY?: number | null;
+  gapY?: number;
 };
 
 /**
@@ -43,24 +46,27 @@ export type GapOptions = {
 export type InsetOptions = {
   /**
    * 距離
+   * 未指定の場合は0（装飾ではコンテナの値）
    */
-  inset?: number | null;
+  inset?: number;
 
   /**
    * 横方向の距離
+   * 未指定の場合は`inset`
    */
-  insetX?: number | null;
+  insetX?: number;
 
   /**
    * 縦方向の距離
+   * 未指定の場合は`inset`
    */
-  insetY?: number | null;
+  insetY?: number;
 };
 
 /**
  * 本体の上下に配置する装飾のオプション
  */
-export type ItemTopBottomOptions = GapOptions & {
+export type ItemTopBottomOptions = {
   /**
    * 本体に対する配置
    */
@@ -70,13 +76,24 @@ export type ItemTopBottomOptions = GapOptions & {
    * 本体の幅の中での横位置
    * デフォルトは`center`
    */
-  alignX?: AlignX | null;
+  alignX?: AlignX;
+
+  /**
+   * 本体との間隔
+   * 未指定の場合はコンテナの値
+   */
+  gap?: number;
+
+  /**
+   * 本体との間隔（`gap`と同じ。コンテナの`gapY`と同じ名前で上書きする場合に使う）
+   */
+  gapY?: number;
 };
 
 /**
  * 本体の左右に配置する装飾のオプション
  */
-export type ItemLeftRightOptions = GapOptions & {
+export type ItemLeftRightOptions = {
   /**
    * 本体に対する配置
    */
@@ -86,7 +103,18 @@ export type ItemLeftRightOptions = GapOptions & {
    * 本体の高さの中での縦位置
    * デフォルトは`middle`
    */
-  alignY?: AlignY | null;
+  alignY?: AlignY;
+
+  /**
+   * 本体との間隔
+   * 未指定の場合はコンテナの値
+   */
+  gap?: number;
+
+  /**
+   * 本体との間隔（`gap`と同じ。コンテナの`gapX`と同じ名前で上書きする場合に使う）
+   */
+  gapX?: number;
 };
 
 /**
@@ -102,19 +130,17 @@ export type ItemInsideOptions = InsetOptions & {
    * 本体の内側での横位置
    * デフォルトは`center`
    */
-  alignX?: AlignX | null;
+  alignX?: AlignX;
 
   /**
    * 本体の内側での縦位置
    * デフォルトは`middle`
    */
-  alignY?: AlignY | null;
+  alignY?: AlignY;
 };
 
 /**
  * 装飾のオプション
  */
 export type ItemOptions =
-  | ItemTopBottomOptions
-  | ItemLeftRightOptions
-  | ItemInsideOptions;
+  ItemTopBottomOptions | ItemLeftRightOptions | ItemInsideOptions;

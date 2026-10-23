@@ -2,11 +2,8 @@
 @use '../sizing';
 
 .frg-layout-sticker {
-  // 変数
-  --frg-layout-sticker-gapX: 0px;
-  --frg-layout-sticker-gapY: 0px;
-  --frg-layout-sticker-insetX: 0px;
-  --frg-layout-sticker-insetY: 0px;
+  // 間隔・距離の変数(--frg-layout-sticker-gapX など)はCSSで既定値を宣言しない
+  // 既定値(0)はTS側に置き、sticker()が常にインラインで出力する
 
   // sticker用のスタイル
   // 装飾の基準にするためposition: relative
@@ -14,13 +11,37 @@
 
   @include sizing.container('frg-layout-sticker');
 
-  // 本体をコンテナに合わせる・中央に置く場合はgridで配置する
+  // sizingX / sizingY を指定した場合はgridで配置する
   // (装飾は絶対配置のため、gridにしても位置は変わらない)
+  // hugでもgridにするのは、インライン要素の本体(<img>など)の下にできる行の隙間を無くすため
   &.frg-layout-sticker-sizingX-fill,
   &.frg-layout-sticker-sizingX-keep,
+  &.frg-layout-sticker-sizingX-hug,
   &.frg-layout-sticker-sizingY-fill,
-  &.frg-layout-sticker-sizingY-keep {
+  &.frg-layout-sticker-sizingY-keep,
+  &.frg-layout-sticker-sizingY-hug {
     display: grid;
+  }
+
+  // keep: 本体と装飾をコンテナの中央のトラックに置く
+  // 両端に余白のトラック(1fr)を足し、中央のトラックを本体の大きさ(auto)にする
+  // 絶対配置の装飾はグリッドの領域を指定すると、その領域を基準に配置される
+  // (終わりの線を省略するとautoになり、コンテナの端が基準になるため、両方の線を指定する)
+  // (本体の領域と本体が一致するため、装飾が本体を基準に揃う)
+  // 本体がコンテナより大きい場合は余白のトラックが0になり、右・下にはみ出す
+  &.frg-layout-sticker-sizingX-keep {
+    grid-template-columns: 1fr auto 1fr;
+
+    > * {
+      grid-column: 2 / 3;
+    }
+  }
+  &.frg-layout-sticker-sizingY-keep {
+    grid-template-rows: 1fr auto 1fr;
+
+    > * {
+      grid-row: 2 / 3;
+    }
   }
 }
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { LayoutStyle } from '../../src/types';
 import affix, { affixItem } from '../../src/with-css/affix';
 import sticker, { stickerItem } from '../../src/with-css/sticker';

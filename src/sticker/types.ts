@@ -7,6 +7,8 @@ import type {
   SizingOptions,
 } from '../_types';
 
+export type { SizingOptions } from '../_types';
+
 /**
  * stickerのオプション
  */

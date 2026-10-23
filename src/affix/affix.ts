@@ -1,7 +1,6 @@
 import { clsAffix, clsAffixSizingNames, varAffixSpacing } from '../_constants';
-import applyGap from '../_internal/applyGap';
-import applyInset from '../_internal/applyInset';
 import applySizing from '../_internal/applySizing';
+import applySpacing from '../_internal/applySpacing';
 import type { LayoutStyle } from '../types';
 import type { AffixOptions } from './types';
 
@@ -11,10 +10,10 @@ import type { AffixOptions } from './types';
  * - affixItemを適用していない子要素を本体として扱う
  * - sizingX / sizingY を指定しない場合、本体には配置(grid-area / align-self)以外のスタイルを適用しない
  * - sizingX / sizingY を指定した場合は、本体とコンテナの大きさを指定の方法で決める
- * - gap / inset は全ての装飾のデフォルト値になる
+ * - gap / inset は全ての装飾のデフォルト値になる（未指定の場合は0）
  */
 const affix = (options: AffixOptions = {}): LayoutStyle => {
-  const { sizingX, sizingY, gap, gapX, gapY, inset, insetX, insetY } = options;
+  const { sizingX, sizingY } = options;
   const result: LayoutStyle = {
     className: clsAffix,
     style: {},
@@ -23,11 +22,8 @@ const affix = (options: AffixOptions = {}): LayoutStyle => {
   // 大きさの決め方
   applySizing(result, clsAffixSizingNames, sizingX, sizingY);
 
-  // 本体と外側の装飾との間隔
-  applyGap(result, varAffixSpacing, gap, gapX, gapY);
-
-  // 本体の端から内側の装飾までの距離
-  applyInset(result, varAffixSpacing, inset, insetX, insetY);
+  // 間隔・距離（全ての装飾のデフォルト値）
+  applySpacing(result, varAffixSpacing, options);
 
   return result;
 };

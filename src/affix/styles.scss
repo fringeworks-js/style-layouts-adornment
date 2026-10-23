@@ -2,11 +2,8 @@
 @use '../sizing';
 
 .frg-layout-affix {
-  // 変数
-  --frg-layout-affix-gapX: 0px;
-  --frg-layout-affix-gapY: 0px;
-  --frg-layout-affix-insetX: 0px;
-  --frg-layout-affix-insetY: 0px;
+  // 間隔・距離の変数(--frg-layout-affix-gapX など)はCSSで既定値を宣言しない
+  // 既定値(0)はTS側に置き、affix()が常にインラインで出力する
 
   // affix用のスタイル
   // 内側の装飾の基準にするためposition: relative
@@ -19,6 +16,35 @@
     / auto 1fr auto;
 
   @include sizing.container('frg-layout-affix');
+
+  // keep: 本体と装飾のまとまりをコンテナの中央に置く
+  // 両端に余白のトラック(1fr)を足し、本体のトラックを本体の大きさ(auto)にする
+  // (本体の領域と本体が一致するため、装飾が本体を基準に揃う)
+  // 本体がコンテナより大きい場合は余白のトラックが0になり、右・下にはみ出す
+  &.frg-layout-affix-sizingX-keep {
+    grid-template-columns: 1fr auto auto auto 1fr;
+    grid-template-areas:
+      '. .    top    .     .'
+      '. left main   right .'
+      '. .    bottom .     .';
+  }
+  &.frg-layout-affix-sizingY-keep {
+    grid-template-rows: 1fr auto auto auto 1fr;
+    grid-template-areas:
+      '.    .      .    '
+      '.    top    .    '
+      'left main   right'
+      '.    bottom .    '
+      '.    .      .    ';
+  }
+  &.frg-layout-affix-sizingX-keep.frg-layout-affix-sizingY-keep {
+    grid-template-areas:
+      '. .    .      .     .'
+      '. .    top    .     .'
+      '. left main   right .'
+      '. .    bottom .     .'
+      '. .    .      .     .';
+  }
 }
 
 // 本体

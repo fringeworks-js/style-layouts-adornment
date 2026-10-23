@@ -13,8 +13,8 @@ import mergeClassName from './mergeClassName';
 export default function applySizing(
   result: LayoutStyle,
   classNames: SizingClassNames,
-  sizingX: Sizing | null | undefined,
-  sizingY: Sizing | null | undefined,
+  sizingX: Sizing | undefined,
+  sizingY: Sizing | undefined,
 ): void {
   result.className = mergeClassName(
     result.className,

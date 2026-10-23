@@ -32,7 +32,7 @@ export default function createTestRenderer(name: LayoutName) {
       const element = document.createElement('div');
       element.dataset.testid = item.testId;
       element.textContent = item.text;
-      if (result.className) element.className = result.className;
+      if (result.className) {element.className = result.className;}
       assignStyle(element, { ...item.style, ...result.style });
       container.appendChild(element);
     }
@@ -41,7 +41,7 @@ export default function createTestRenderer(name: LayoutName) {
     for (const main of mains) {
       const element = document.createElement('div');
       element.dataset.testid = main.testId;
-      if (main.className) element.className = main.className;
+      if (main.className) {element.className = main.className;}
       assignStyle(element, main.style);
       container.appendChild(element);
     }
@@ -53,9 +53,9 @@ export default function createTestRenderer(name: LayoutName) {
       assignStyle(element, style);
       return element;
     });
-    if (before) wrapper.appendChild(before);
+    if (before) {wrapper.appendChild(before);}
     wrapper.appendChild(container);
-    if (after) wrapper.appendChild(after);
+    if (after) {wrapper.appendChild(after);}
 
     return wrapper;
   };

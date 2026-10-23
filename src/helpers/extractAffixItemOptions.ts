@@ -1,13 +1,14 @@
+import { createSplitByKeys } from '@fringeworks/utils/object/createSplitByKeys';
 import type { AffixItemOptions } from '../affix/types';
-import {
-  GAP_OPTIONS_KEYS,
-  INSET_OPTIONS_KEYS,
-  ITEM_OPTIONS_KEYS,
-} from './_internal/constants';
-import createExtractLayoutOptions from './_internal/createExtractLayoutOptions';
 
-export default createExtractLayoutOptions<AffixItemOptions>([
-  ...ITEM_OPTIONS_KEYS,
-  ...GAP_OPTIONS_KEYS,
-  ...INSET_OPTIONS_KEYS,
-]);
+export default createSplitByKeys<AffixItemOptions>({
+  side: true,
+  alignX: true,
+  alignY: true,
+  gap: true,
+  gapX: true,
+  gapY: true,
+  inset: true,
+  insetX: true,
+  insetY: true,
+});

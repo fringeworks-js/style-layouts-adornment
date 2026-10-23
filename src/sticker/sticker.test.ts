@@ -4,8 +4,16 @@ import sticker from './sticker';
 import stickerItem from './stickerItem';
 
 describe('sticker', () => {
-  test('オプション未指定', () => {
-    expect(sticker()).toEqual({ className: 'frg-layout-sticker', style: {} });
+  test('オプション未指定: 間隔・距離は0を出力する', () => {
+    expect(sticker()).toEqual({
+      className: 'frg-layout-sticker',
+      style: {
+        '--frg-layout-sticker-gapX': '0px',
+        '--frg-layout-sticker-gapY': '0px',
+        '--frg-layout-sticker-insetX': '0px',
+        '--frg-layout-sticker-insetY': '0px',
+      },
+    });
   });
 
   test('sizingX / sizingY', () => {
@@ -35,6 +43,9 @@ describe('stickerItem', () => {
     expect(stickerItem({ side: 'left', alignY: 'top' }).className).toBe(
       'frg-layout-sticker-item frg-layout-sticker-side-left frg-layout-sticker-alignY-top',
     );
+    expect(stickerItem({ side: 'right' }).className).toBe(
+      'frg-layout-sticker-item frg-layout-sticker-side-right frg-layout-sticker-alignY-middle',
+    );
     expect(
       stickerItem({ side: 'inside', alignX: 'right', alignY: 'top' }).className,
     ).toBe(
@@ -42,9 +53,12 @@ describe('stickerItem', () => {
     );
   });
 
-  test('外側はgap、内側はinsetでコンテナの値を上書きする', () => {
+  test('外側は面した軸の間隔、内側は距離でコンテナの値を上書きする', () => {
     expect(stickerItem({ side: 'bottom', gapY: 2 }).style).toEqual({
       '--frg-layout-sticker-gapY': '2px',
+    });
+    expect(stickerItem({ side: 'right', gap: 2 }).style).toEqual({
+      '--frg-layout-sticker-gapX': '2px',
     });
     expect(stickerItem({ side: 'inside', inset: -8 }).style).toEqual({
       '--frg-layout-sticker-insetX': '-8px',
@@ -55,6 +69,8 @@ describe('stickerItem', () => {
   test('型: sideで使えない値は指定できない', () => {
     // @ts-expect-error top / bottom にalignYは指定できない
     stickerItem({ side: 'bottom', alignY: 'top' });
+    // @ts-expect-error left / right にgapYは指定できない
+    stickerItem({ side: 'left', gapY: 4 });
     // @ts-expect-error 内側にgapは指定できない
     stickerItem({ side: 'inside', gap: 4 });
   });
