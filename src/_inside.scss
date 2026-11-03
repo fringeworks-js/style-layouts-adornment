@@ -1,6 +1,6 @@
 // 内側の装飾の位置
 // 絶対配置した装飾を、本体の端から inset の距離に揃える
-// @param $prefix レイアウトのクラスの接頭辞 (例: frg-layout-affix)
+// @param $prefix レイアウトのクラスの接頭辞 (例: frgs-layout-affix)
 @mixin align($prefix) {
   &.#{$prefix}-alignX-left {
     // 横位置: 左
@@ -35,7 +35,7 @@
 
 // 中央寄せの内側の装飾は内容に合わせたサイズにする
 // 利用者のサイズ指定を優先するため詳細度を0にする
-// @param $prefix レイアウトのクラスの接頭辞 (例: frg-layout-affix)
+// @param $prefix レイアウトのクラスの接頭辞 (例: frgs-layout-affix)
 @mixin fit($prefix) {
   :where(.#{$prefix}-item.#{$prefix}-side-inside.#{$prefix}-alignX-center) {
     width: fit-content;

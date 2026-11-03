@@ -38,22 +38,22 @@ const percent = affixItem({ side: 'inside' });
 
 ```html
 <div
-  class="frg-layout-affix"
-  style="--frg-layout-affix-gapX: 4px; --frg-layout-affix-gapY: 4px; --frg-layout-affix-insetX: 0px; --frg-layout-affix-insetY: 0px"
+  class="frgs-layout-affix"
+  style="--frgs-layout-affix-gapX: 4px; --frgs-layout-affix-gapY: 4px; --frgs-layout-affix-insetX: 0px; --frgs-layout-affix-insetY: 0px"
 >
   <div class="progress-bar"></div>
   <span
-    class="frg-layout-affix-item frg-layout-affix-side-top frg-layout-affix-alignX-left"
+    class="frgs-layout-affix-item frgs-layout-affix-side-top frgs-layout-affix-alignX-left"
   >
     Uploading...
   </span>
   <span
-    class="frg-layout-affix-item frg-layout-affix-side-right frg-layout-affix-alignY-middle"
+    class="frgs-layout-affix-item frgs-layout-affix-side-right frgs-layout-affix-alignY-middle"
   >
     3 / 10
   </span>
   <span
-    class="frg-layout-affix-item frg-layout-affix-side-inside frg-layout-affix-alignX-center frg-layout-affix-alignY-middle"
+    class="frgs-layout-affix-item frgs-layout-affix-side-inside frgs-layout-affix-alignX-center frgs-layout-affix-alignY-middle"
   >
     45%
   </span>

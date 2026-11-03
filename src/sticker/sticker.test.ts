@@ -6,30 +6,30 @@ import stickerItem from './stickerItem';
 describe('sticker', () => {
   test('オプション未指定: 間隔・距離は0を出力する', () => {
     expect(sticker()).toEqual({
-      className: 'frg-layout-sticker',
+      className: 'frgs-layout-sticker',
       style: {
-        '--frg-layout-sticker-gapX': '0px',
-        '--frg-layout-sticker-gapY': '0px',
-        '--frg-layout-sticker-insetX': '0px',
-        '--frg-layout-sticker-insetY': '0px',
+        '--frgs-layout-sticker-gapX': '0px',
+        '--frgs-layout-sticker-gapY': '0px',
+        '--frgs-layout-sticker-insetX': '0px',
+        '--frgs-layout-sticker-insetY': '0px',
       },
     });
   });
 
   test('sizingX / sizingY', () => {
     expect(sticker({ sizingX: 'keep', sizingY: 'fill' }).className).toBe(
-      'frg-layout-sticker frg-layout-sticker-sizingX-keep frg-layout-sticker-sizingY-fill',
+      'frgs-layout-sticker frgs-layout-sticker-sizingX-keep frgs-layout-sticker-sizingY-fill',
     );
   });
 
   test('gap / inset は共通値を軸毎の値で上書きする', () => {
     expect(sticker({ gap: 4, gapY: 8, inset: -2, insetX: 0 })).toEqual({
-      className: 'frg-layout-sticker',
+      className: 'frgs-layout-sticker',
       style: {
-        '--frg-layout-sticker-gapX': '4px',
-        '--frg-layout-sticker-gapY': '8px',
-        '--frg-layout-sticker-insetX': '0px',
-        '--frg-layout-sticker-insetY': '-2px',
+        '--frgs-layout-sticker-gapX': '4px',
+        '--frgs-layout-sticker-gapY': '8px',
+        '--frgs-layout-sticker-insetX': '0px',
+        '--frgs-layout-sticker-insetY': '-2px',
       },
     });
   });
@@ -38,31 +38,31 @@ describe('sticker', () => {
 describe('stickerItem', () => {
   test('sideごとに使う揃え方のクラスのみ付与する', () => {
     expect(stickerItem({ side: 'top' }).className).toBe(
-      'frg-layout-sticker-item frg-layout-sticker-side-top frg-layout-sticker-alignX-center',
+      'frgs-layout-sticker-item frgs-layout-sticker-side-top frgs-layout-sticker-alignX-center',
     );
     expect(stickerItem({ side: 'left', alignY: 'top' }).className).toBe(
-      'frg-layout-sticker-item frg-layout-sticker-side-left frg-layout-sticker-alignY-top',
+      'frgs-layout-sticker-item frgs-layout-sticker-side-left frgs-layout-sticker-alignY-top',
     );
     expect(stickerItem({ side: 'right' }).className).toBe(
-      'frg-layout-sticker-item frg-layout-sticker-side-right frg-layout-sticker-alignY-middle',
+      'frgs-layout-sticker-item frgs-layout-sticker-side-right frgs-layout-sticker-alignY-middle',
     );
     expect(
       stickerItem({ side: 'inside', alignX: 'right', alignY: 'top' }).className,
     ).toBe(
-      'frg-layout-sticker-item frg-layout-sticker-side-inside frg-layout-sticker-alignX-right frg-layout-sticker-alignY-top',
+      'frgs-layout-sticker-item frgs-layout-sticker-side-inside frgs-layout-sticker-alignX-right frgs-layout-sticker-alignY-top',
     );
   });
 
   test('外側は面した軸の間隔、内側は距離でコンテナの値を上書きする', () => {
     expect(stickerItem({ side: 'bottom', gapY: 2 }).style).toEqual({
-      '--frg-layout-sticker-gapY': '2px',
+      '--frgs-layout-sticker-gapY': '2px',
     });
     expect(stickerItem({ side: 'right', gap: 2 }).style).toEqual({
-      '--frg-layout-sticker-gapX': '2px',
+      '--frgs-layout-sticker-gapX': '2px',
     });
     expect(stickerItem({ side: 'inside', inset: -8 }).style).toEqual({
-      '--frg-layout-sticker-insetX': '-8px',
-      '--frg-layout-sticker-insetY': '-8px',
+      '--frgs-layout-sticker-insetX': '-8px',
+      '--frgs-layout-sticker-insetY': '-8px',
     });
   });
 

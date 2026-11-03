@@ -3,7 +3,7 @@
 // オプションで明示的に選択されたものなので、本体のスタイルより優先されるよう通常の詳細度にする
 
 // コンテナ
-// @param $prefix レイアウトのクラスの接頭辞 (例: frg-layout-affix)
+// @param $prefix レイアウトのクラスの接頭辞 (例: frgs-layout-affix)
 @mixin container($prefix) {
   &.#{$prefix}-sizingX-hug {
     // 横方向: コンテナを本体に合わせる
@@ -16,7 +16,7 @@
 }
 
 // 本体
-// @param $prefix レイアウトのクラスの接頭辞 (例: frg-layout-affix)
+// @param $prefix レイアウトのクラスの接頭辞 (例: frgs-layout-affix)
 @mixin main($prefix) {
   $main: '> :not(.#{$prefix}-item)';
 
