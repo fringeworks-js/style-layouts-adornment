@@ -1,4 +1,4 @@
-import mergeClassName from './mergeClassName';
+import mergeClassName from './_mergeClassName';
 
 describe('mergeClassName', () => {
   test('空でないクラス名を空白で連結する', () => {

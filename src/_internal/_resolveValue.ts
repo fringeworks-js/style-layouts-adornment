@@ -1,4 +1,4 @@
-import hasValue from './hasValue';
+import hasValue from './_hasValue';
 
 /**
  * 候補の中で最初の有効な数値を返す

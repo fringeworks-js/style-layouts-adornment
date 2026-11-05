@@ -1,4 +1,4 @@
-import resolveValue from './resolveValue';
+import resolveValue from './_resolveValue';
 
 describe('resolveValue', () => {
   test('最初の有効な数値を返す', () => {

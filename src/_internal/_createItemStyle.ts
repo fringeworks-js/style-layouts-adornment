@@ -2,9 +2,9 @@ import type { ItemClassNames, SpacingVars } from '../_constants';
 import type { ItemOptions } from '../_types';
 import type { AlignX, AlignY, Side } from '../constants';
 import type { LayoutStyle } from '../types';
-import mergeClassName from './mergeClassName';
-import resolveValue from './resolveValue';
-import unit from './unit';
+import mergeClassName from './_mergeClassName';
+import resolveValue from './_resolveValue';
+import unit from './_unit';
 
 /**
  * 全てのsideのオプションを展開した型

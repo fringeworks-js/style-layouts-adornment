@@ -1,4 +1,4 @@
-import hasValue from './hasValue';
+import hasValue from './_hasValue';
 
 describe('hasValue', () => {
   test('有限の数値は有効', () => {

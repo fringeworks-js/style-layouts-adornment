@@ -1,8 +1,8 @@
 import type { SpacingVars } from '../_constants';
 import type { GapOptions, InsetOptions } from '../_types';
 import type { LayoutStyle } from '../types';
-import resolveValue from './resolveValue';
-import unit from './unit';
+import resolveValue from './_resolveValue';
+import unit from './_unit';
 
 /**
  * コンテナの間隔・距離の適用

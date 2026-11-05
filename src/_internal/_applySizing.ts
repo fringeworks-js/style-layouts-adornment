@@ -1,7 +1,7 @@
 import type { SizingClassNames } from '../_constants';
 import type { Sizing } from '../constants';
 import type { LayoutStyle } from '../types';
-import mergeClassName from './mergeClassName';
+import mergeClassName from './_mergeClassName';
 
 /**
  * 大きさの決め方の適用

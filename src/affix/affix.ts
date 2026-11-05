@@ -1,6 +1,6 @@
 import { clsAffix, clsAffixSizingNames, varAffixSpacing } from '../_constants';
-import applySizing from '../_internal/applySizing';
-import applySpacing from '../_internal/applySpacing';
+import applySizing from '../_internal/_applySizing';
+import applySpacing from '../_internal/_applySpacing';
 import type { LayoutStyle } from '../types';
 import type { AffixOptions } from './types';
 
