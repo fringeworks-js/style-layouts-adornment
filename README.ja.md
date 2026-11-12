@@ -19,8 +19,6 @@
 
 ```bash
 npm install @fringeworks/style-layouts-adornment
-# または
-pnpm add @fringeworks/style-layouts-adornment
 ```
 
 ## 使い方
@@ -341,20 +339,21 @@ extractStickerItemOptions<T>(record: T): [StickerItemOptions, Omit<T, keyof Stic
 
 ### 型
 
-| 型                            | 説明                                              |
-| ----------------------------- | ------------------------------------------------- |
-| `LayoutStyle`                 | レイアウト関数の戻り値                            |
-| `AffixOptions`                | `affix()` のオプション                            |
-| `AffixItemOptions`            | `affixItem()` のオプション（下記3つのユニオン）   |
-| `AffixItemTopBottomOptions`   | `side` が `'top'` / `'bottom'` の場合のオプション |
-| `AffixItemLeftRightOptions`   | `side` が `'left'` / `'right'` の場合のオプション |
-| `AffixItemInsideOptions`      | `side` が `'inside'` の場合のオプション           |
-| `StickerOptions`              | `sticker()` のオプション                          |
-| `StickerItemOptions`          | `stickerItem()` のオプション（下記3つのユニオン） |
-| `StickerItemTopBottomOptions` | `side` が `'top'` / `'bottom'` の場合のオプション |
-| `StickerItemLeftRightOptions` | `side` が `'left'` / `'right'` の場合のオプション |
-| `StickerItemInsideOptions`    | `side` が `'inside'` の場合のオプション           |
-| `SizingOptions`               | `sizingX` / `sizingY` オプション                  |
+| 型                            | 説明                                                                                                                                 |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `LayoutStyle`                 | レイアウト関数の戻り値                                                                                                               |
+| `CSSCustomProperties`         | CSS 変数のオブジェクト（キーが `--` で始まり、値が `string \| undefined`）。戻り値の `style` の型（`@fringeworks/style-utils` の型） |
+| `AffixOptions`                | `affix()` のオプション                                                                                                               |
+| `AffixItemOptions`            | `affixItem()` のオプション（下記3つのユニオン）                                                                                      |
+| `AffixItemTopBottomOptions`   | `side` が `'top'` / `'bottom'` の場合のオプション                                                                                    |
+| `AffixItemLeftRightOptions`   | `side` が `'left'` / `'right'` の場合のオプション                                                                                    |
+| `AffixItemInsideOptions`      | `side` が `'inside'` の場合のオプション                                                                                              |
+| `StickerOptions`              | `sticker()` のオプション                                                                                                             |
+| `StickerItemOptions`          | `stickerItem()` のオプション（下記3つのユニオン）                                                                                    |
+| `StickerItemTopBottomOptions` | `side` が `'top'` / `'bottom'` の場合のオプション                                                                                    |
+| `StickerItemLeftRightOptions` | `side` が `'left'` / `'right'` の場合のオプション                                                                                    |
+| `StickerItemInsideOptions`    | `side` が `'inside'` の場合のオプション                                                                                              |
+| `SizingOptions`               | `sizingX` / `sizingY` オプション                                                                                                     |
 
 ```ts
 type LayoutStyle = {

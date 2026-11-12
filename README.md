@@ -19,8 +19,6 @@ This library is part of the `@fringeworks/style-layouts` series, but it can be u
 
 ```bash
 npm install @fringeworks/style-layouts-adornment
-# or
-pnpm add @fringeworks/style-layouts-adornment
 ```
 
 ## Usage
@@ -341,20 +339,21 @@ The `Side` / `AlignX` / `AlignY` / `Sizing` constants can be imported from `@fri
 
 ### Types
 
-| Type                          | Description                                            |
-| ----------------------------- | ------------------------------------------------------ |
-| `LayoutStyle`                 | Return value of the layout functions                   |
-| `AffixOptions`                | Options for `affix()`                                  |
-| `AffixItemOptions`            | Options for `affixItem()` (union of the three below)   |
-| `AffixItemTopBottomOptions`   | Options when `side` is `'top'` / `'bottom'`            |
-| `AffixItemLeftRightOptions`   | Options when `side` is `'left'` / `'right'`            |
-| `AffixItemInsideOptions`      | Options when `side` is `'inside'`                      |
-| `StickerOptions`              | Options for `sticker()`                                |
-| `StickerItemOptions`          | Options for `stickerItem()` (union of the three below) |
-| `StickerItemTopBottomOptions` | Options when `side` is `'top'` / `'bottom'`            |
-| `StickerItemLeftRightOptions` | Options when `side` is `'left'` / `'right'`            |
-| `StickerItemInsideOptions`    | Options when `side` is `'inside'`                      |
-| `SizingOptions`               | The `sizingX` / `sizingY` options                      |
+| Type                          | Description                                                                                                                                                         |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `LayoutStyle`                 | Return value of the layout functions                                                                                                                                |
+| `CSSCustomProperties`         | An object of CSS variables (keys start with `--`, values are `string \| undefined`). The type of `style` in the return value (a type of `@fringeworks/style-utils`) |
+| `AffixOptions`                | Options for `affix()`                                                                                                                                               |
+| `AffixItemOptions`            | Options for `affixItem()` (union of the three below)                                                                                                                |
+| `AffixItemTopBottomOptions`   | Options when `side` is `'top'` / `'bottom'`                                                                                                                         |
+| `AffixItemLeftRightOptions`   | Options when `side` is `'left'` / `'right'`                                                                                                                         |
+| `AffixItemInsideOptions`      | Options when `side` is `'inside'`                                                                                                                                   |
+| `StickerOptions`              | Options for `sticker()`                                                                                                                                             |
+| `StickerItemOptions`          | Options for `stickerItem()` (union of the three below)                                                                                                              |
+| `StickerItemTopBottomOptions` | Options when `side` is `'top'` / `'bottom'`                                                                                                                         |
+| `StickerItemLeftRightOptions` | Options when `side` is `'left'` / `'right'`                                                                                                                         |
+| `StickerItemInsideOptions`    | Options when `side` is `'inside'`                                                                                                                                   |
+| `SizingOptions`               | The `sizingX` / `sizingY` options                                                                                                                                   |
 
 ```ts
 type LayoutStyle = {
